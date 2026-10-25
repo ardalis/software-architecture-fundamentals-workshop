@@ -1,5 +1,7 @@
 # TicketTide: Case Study Brief
 
+<img src="./tickettide-logo.svg" alt="TicketTide" width="320">
+
 TicketTide is the fictional system used across the workshop exercises. The kata, trade-off analysis, bounded contexts, granularity, and ADR exercises all build on it, so decisions made early in the workshop carry forward.
 
 ## The business

@@ -1,0 +1,48 @@
+# TicketTide requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/events
+
+### Buy two tickets
+# @name order
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### The order and its tickets
+GET {{api}}/orders/{{order.response.body.$.orderId}}
+
+### Refund it: the tickets stop working and the seats go back on sale
+POST {{api}}/orders/{{order.response.body.$.orderId}}/refund
+
+### Refunding it again breaks a rule: 400
+POST {{api}}/orders/{{order.response.body.$.orderId}}/refund
+
+### Declined card: 422 with the declined order, and no seats taken
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+### Not enough seats: Back Room Sessions only has 4
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}

@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "src/TicketTide.AppHost/TicketTide.AppHost.csproj"
+  }
+}

@@ -1,0 +1,302 @@
+<!doctype html>
+<!--
+  The home page for the monolith samples (Clean Architecture and Vertical Slice). Each sample's TicketTide.Web links
+  this file (and HomePage.cs), so edit it here, in samples/shared/MonolithHomePage, and both samples get the change.
+  HomePage.cs fills in the double-brace placeholders with the sample's name and summary.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{SampleName}} - TicketTide</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme: light dark; --accent: #0b7285; --ok: #2b8a3e; --bad: #c92a2a; --line: #8884; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 64rem; padding: 1.5rem; line-height: 1.45; }
+    h1 { margin: 0 0 .25rem; }
+    h2 { margin-top: 2rem; border-bottom: 1px solid var(--line); padding-bottom: .25rem; }
+    .tagline { margin: 0 0 1rem; opacity: .8; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: .3rem .6rem; border-bottom: 1px solid var(--line); }
+    .table-scroll { overflow-x: auto; }
+    .scenarios { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .75rem; }
+    .scenario { border: 1px solid var(--line); border-radius: .5rem; padding: .75rem; display: flex; flex-direction: column; gap: .5rem; }
+    .scenario p { margin: 0; flex: 1; font-size: .9rem; }
+    button { font: inherit; cursor: pointer; padding: .4rem .8rem; border-radius: .4rem; border: 1px solid var(--accent); background: var(--accent); color: white; }
+    button.secondary { background: transparent; color: inherit; }
+    button:disabled { opacity: .5; cursor: wait; }
+    form { display: grid; grid-template-columns: max-content 1fr; gap: .5rem .75rem; align-items: center; max-width: 36rem; }
+    form button { grid-column: 2; justify-self: start; }
+    input, select { font: inherit; padding: .3rem; min-width: 0; }
+    .status { font-weight: bold; }
+    .status.Paid, .status.ok { color: var(--ok); }
+    .status.Declined, .status.Refunded, .status.error { color: var(--bad); }
+    .actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+    pre { background: #8881; padding: .75rem; overflow-x: auto; border-radius: .4rem; font-size: .85rem; }
+    [hidden] { display: none !important; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <h1>{{SampleName}}</h1>
+  <p class="tagline">{{Summary}}</p>
+  <p>
+    Each button below calls the API: <code>GET /events</code>, <code>POST /orders</code>,
+    <code>GET /orders/{orderId}</code>, and <code>POST /orders/{orderId}/refund</code>, and shows the response.
+    Emails go to Papercut. See the sample's README for the walkthrough.
+  </p>
+
+  <h2>Events on sale</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Event</th><th>Id</th><th>Venue</th><th>Starts</th><th>Price</th><th>Seats left</th></tr></thead>
+      <tbody id="events"><tr><td colspan="6">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <h2>Try a scenario</h2>
+  <div class="scenarios">
+    <div class="scenario">
+      <strong>Happy path</strong>
+      <p>Buy two tickets for The Midnight Tide with a card that works: <code>201</code>, and the fan gets an email.</p>
+      <button type="button" data-scenario="happy">Buy tickets</button>
+    </div>
+    <div class="scenario">
+      <strong>Buy, then refund</strong>
+      <p>Buy a ticket for Laugh Track Live, then refund it. The ticket stops working and the seat goes back on sale.</p>
+      <button type="button" data-scenario="refund">Buy and refund</button>
+    </div>
+    <div class="scenario">
+      <strong>Card declined</strong>
+      <p>The fake payment provider declines <code>tok_declined</code>: <code>422</code> with the declined order, and no seats taken.</p>
+      <button type="button" data-scenario="declined">Buy with a declined card</button>
+    </div>
+    <div class="scenario">
+      <strong>Sold out</strong>
+      <p>Five seats for Back Room Sessions, which only has four: <code>400</code>, a broken business rule.</p>
+      <button type="button" data-scenario="soldOut">Buy too many seats</button>
+    </div>
+    <div class="scenario">
+      <strong>Unknown event</strong>
+      <p>An event that doesn't exist: <code>404</code>.</p>
+      <button type="button" data-scenario="unknownEvent">Buy for a missing event</button>
+    </div>
+    <div class="scenario">
+      <strong>Bad request</strong>
+      <p>Zero tickets and an invalid email: <code>400</code> with validation errors.</p>
+      <button type="button" data-scenario="invalid">Send a bad request</button>
+    </div>
+  </div>
+
+  <h2>Or build your own order</h2>
+  <form id="order-form">
+    <label for="eventId">Event</label>
+    <input id="eventId" name="eventId" list="event-ids" value="midnight-tide" required>
+    <datalist id="event-ids"></datalist>
+    <label for="quantity">Quantity</label>
+    <input id="quantity" name="quantity" type="number" value="2">
+    <label for="fanEmail">Fan email</label>
+    <input id="fanEmail" name="fanEmail" value="fan@example.com">
+    <label for="paymentToken">Payment token</label>
+    <select id="paymentToken" name="paymentToken">
+      <option value="tok_visa">tok_visa (succeeds)</option>
+      <option value="tok_declined">tok_declined (declined)</option>
+    </select>
+    <button type="submit">Place order</button>
+  </form>
+
+  <h2>Look up an order</h2>
+  <form id="lookup-form">
+    <label for="orderId">Order id</label>
+    <input id="orderId" name="orderId" required pattern="\s*[0-9a-fA-F\-]{36}\s*" title="An order id, such as 01a17503-ee54-73d3-963f-588e77c897e0" placeholder="00000000-0000-0000-0000-000000000000">
+    <button type="submit">Get order</button>
+  </form>
+
+  <!-- Screen readers hear each result once, without the raw responses. -->
+  <p id="announce" class="visually-hidden" role="status"></p>
+
+  <section id="result" hidden>
+    <h2>Result</h2>
+    <p id="summary" tabindex="-1"></p>
+    <div id="tickets-section" hidden>
+      <h3>Tickets</h3>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Code</th><th>Holder</th><th>Status</th></tr></thead>
+          <tbody id="tickets"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="actions">
+      <button type="button" id="refund" hidden>Refund this order</button>
+      <button type="button" class="secondary" id="reload" hidden>Get it again</button>
+    </p>
+    <h3>Responses</h3>
+    <pre id="raw"></pre>
+  </section>
+
+  <script>
+    const scenarios = {
+      happy: { request: { eventId: "midnight-tide", quantity: 2, fanEmail: "fan@example.com", paymentToken: "tok_visa" } },
+      refund: { request: { eventId: "laugh-track-live", quantity: 1, fanEmail: "refund-fan@example.com", paymentToken: "tok_visa" }, thenRefund: true },
+      declined: { request: { eventId: "midnight-tide", quantity: 1, fanEmail: "declined-fan@example.com", paymentToken: "tok_declined" } },
+      soldOut: { request: { eventId: "back-room-sessions", quantity: 5, fanEmail: "late-fan@example.com", paymentToken: "tok_visa" } },
+      unknownEvent: { request: { eventId: "no-such-event", quantity: 1, fanEmail: "lost-fan@example.com", paymentToken: "tok_visa" } },
+      invalid: { request: { eventId: "midnight-tide", quantity: 0, fanEmail: "not-an-email", paymentToken: "tok_visa" } },
+    };
+
+    const $ = id => document.getElementById(id);
+    const form = $("order-form");
+    const buttons = () => document.querySelectorAll("[data-scenario], form button, #refund, #reload");
+    let currentOrderId = null;
+
+    async function send(method, path, body) {
+      const response = await fetch(path, {
+        method,
+        headers: body ? { "Content-Type": "application/json", Accept: "application/json" } : { Accept: "application/json" },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      const text = await response.text();
+      let json = null;
+      try { json = text ? JSON.parse(text) : null; } catch { json = text; }
+      $("raw").textContent += `${method} ${path}\n${body ? JSON.stringify(body, null, 2) + "\n" : ""}` +
+        `-> HTTP ${response.status}\n${json === null ? "(no body)" : typeof json === "string" ? json : JSON.stringify(json, null, 2)}\n\n`;
+      return { status: response.status, ok: response.ok, body: json };
+    }
+
+    function statusSpan(text, cssClass = text) {
+      const span = document.createElement("span");
+      span.className = `status ${cssClass}`;
+      span.textContent = text;
+      return span;
+    }
+
+    function row(values) {
+      const tr = document.createElement("tr");
+      for (const value of values) {
+        const cell = document.createElement("td");
+        if (value instanceof Node) cell.append(value); else cell.textContent = value;
+        tr.append(cell);
+      }
+      return tr;
+    }
+
+    const money = amount => `$${Number(amount).toFixed(2)}`;
+
+    async function loadEvents() {
+      const tbody = $("events");
+      try {
+        const response = await fetch("/events", { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const events = await response.json();
+        tbody.replaceChildren(...events.map(e => row([
+          e.name, e.id, e.venue, new Date(e.startsAt).toLocaleString(), money(e.price), `${e.seatsAvailable} of ${e.capacity}`,
+        ])));
+        $("event-ids").replaceChildren(...events.map(e => new Option(e.name, e.id)));
+      } catch (error) {
+        tbody.replaceChildren(row([`Could not load the events: ${error}`]));
+        tbody.querySelector("td").colSpan = 6;
+      }
+    }
+
+    // Shows an order, or why there isn't one (problem details or validation errors).
+    function showResponse({ status, ok, body }) {
+      const summary = $("summary");
+      const isOrder = body && typeof body === "object" && body.orderId;
+      currentOrderId = isOrder ? body.orderId : null;
+      // Refunding a refunded order breaks a rule (400), which is worth seeing too.
+      $("refund").hidden = !(isOrder && (body.status === "Paid" || body.status === "Refunded"));
+      $("refund").textContent = isOrder && body.status === "Refunded" ? "Refund it again" : "Refund this order";
+      $("reload").hidden = !isOrder;
+      $("tickets-section").hidden = !isOrder || body.tickets.length === 0;
+
+      if (isOrder) {
+        $("orderId").value = body.orderId;
+        const details = [body.eventName, `${body.quantity} ticket(s)`, money(body.amount), body.fanEmail].join(" · ");
+        summary.replaceChildren(
+          statusSpan(`HTTP ${status}`, ok ? "ok" : "error"), ` Order ${body.orderId}: `, statusSpan(body.status),
+          body.failureReason ? ` (${body.failureReason})` : "", ` - ${details}`);
+        $("tickets").replaceChildren(...body.tickets.map(t => row([t.code, t.holderEmail, statusSpan(t.status)])));
+        return;
+      }
+
+      // Problem details: a broken rule has a detail, validation errors have a list (often repeating the detail).
+      const reasons = body && typeof body === "object"
+        ? [...new Set([body.detail, ...(Array.isArray(body.errors) ? body.errors.map(e => e.reason ?? JSON.stringify(e)) : Object.values(body.errors ?? {}).flat())]
+            .filter(Boolean))]
+        : [];
+      summary.replaceChildren(
+        statusSpan(`HTTP ${status}`, ok ? "ok" : "error"),
+        status === 404 ? " Not found." : ` ${body?.title ?? "No order."}`,
+        reasons.length ? ` ${reasons.join(" ")}` : "");
+    }
+
+    // Runs one or more API calls with the buttons disabled, then refreshes the seat counts.
+    async function run(action) {
+      // Disabling the focused button drops focus to the page, so put it back afterwards for keyboard users.
+      const focused = document.activeElement;
+      buttons().forEach(b => b.disabled = true);
+      $("result").hidden = false;
+      $("raw").textContent = "";
+      $("summary").textContent = "Calling the API...";
+      try {
+        await action();
+      } catch (error) {
+        $("summary").replaceChildren(statusSpan("Error", "error"), ` ${error}`);
+      } finally {
+        $("announce").textContent = $("summary").textContent;
+        await loadEvents();
+        buttons().forEach(b => b.disabled = false);
+        if (focused instanceof HTMLElement && !focused.hidden) focused.focus();
+        else $("summary").focus();
+      }
+    }
+
+    const placeOrder = request => send("POST", "/orders", request);
+    const refundOrder = orderId => send("POST", `/orders/${encodeURIComponent(orderId)}/refund`);
+    const getOrder = orderId => send("GET", `/orders/${encodeURIComponent(orderId)}`);
+
+    function fillForm(request) {
+      for (const [name, value] of Object.entries(request)) {
+        form.elements[name].value = value;
+      }
+    }
+
+    document.querySelectorAll("[data-scenario]").forEach(button => button.addEventListener("click", () => {
+      const { request, thenRefund } = scenarios[button.dataset.scenario];
+      fillForm(request);
+      run(async () => {
+        const placed = await placeOrder(request);
+        showResponse(placed);
+        if (thenRefund && placed.status === 201) {
+          showResponse(await refundOrder(placed.body.orderId));
+        }
+      });
+    }));
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      run(async () => showResponse(await placeOrder({ ...data, quantity: Number(data.quantity) })));
+    });
+
+    $("lookup-form").addEventListener("submit", event => {
+      event.preventDefault();
+      run(async () => showResponse(await getOrder($("orderId").value.trim())));
+    });
+
+    $("refund").addEventListener("click", () => {
+      const orderId = currentOrderId;
+      run(async () => showResponse(await refundOrder(orderId)));
+    });
+
+    $("reload").addEventListener("click", () => {
+      const orderId = currentOrderId;
+      run(async () => showResponse(await getOrder(orderId)));
+    });
+
+    loadEvents();
+  </script>
+</body>
+</html>

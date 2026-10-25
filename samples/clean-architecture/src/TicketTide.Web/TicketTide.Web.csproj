@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- The endpoints and the composition root. The only project that knows about all the others. -->
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.ServiceDefaults\TicketTide.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\TicketTide.Core\TicketTide.Core.csproj" />
+    <ProjectReference Include="..\TicketTide.Infrastructure\TicketTide.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!-- The home page is shared with the other monolith sample. Edit samples/shared/MonolithHomePage, not a copy. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\shared\MonolithHomePage\HomePage.cs" Link="HomePage\HomePage.cs" />
+    <EmbeddedResource Include="..\..\..\shared\MonolithHomePage\index.html" Link="HomePage\index.html" LogicalName="TicketTide.Web.HomePage.index.html" />
+  </ItemGroup>
+
+</Project>

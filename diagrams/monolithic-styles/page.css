@@ -1,0 +1,42 @@
+/* Chrome for the monolithic styles pages: back link and the overview table. */
+
+.back {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.back a {
+  color: #333333;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px 14px;
+  text-align: left;
+}
+
+thead th {
+  border-bottom: 2px solid #333333;
+}
+
+tbody tr + tr td {
+  border-top: 1px solid #e6e6e6;
+}
+
+td a {
+  color: #333333;
+  font-weight: 600;
+  white-space: nowrap;
+}

@@ -2,6 +2,24 @@
 
 Runnable architecture samples for the workshop. Each sample is in its own folder.
 
+## Monolithic styles
+
+Two samples build the same small slice of TicketTide, buying tickets and refunding them, in two different
+monolithic styles. They have the same API, the same behavior, and the same end-to-end tests. Only the structure of
+the code differs. The [add-a-feature exercise](../exercises/add-a-feature.md) adds ticket transfer to each and
+compares the two.
+
+| Sample | Organized by | Where the business rules live | Projects |
+| ------ | ------------ | ----------------------------- | -------- |
+| [Clean Architecture](clean-architecture/) | Layer: Core, Infrastructure, Web | On the `Order` and `Event` aggregates in Core | Core, Infrastructure, Web (+ AppHost) |
+| [Vertical Slice](vertical-slice/) | Feature: one folder per request | In each feature's endpoint | Web (+ AppHost) |
+
+Both use .NET 10, Aspire, PostgreSQL, Papercut, and FastEndpoints, like the saga samples, and serve the same API:
+`GET /events`, `POST /orders`, `GET /orders/{orderId}`, and `POST /orders/{orderId}/refund`. Both serve the same
+home page at `/`, linked from [`shared/MonolithHomePage`](shared/MonolithHomePage/): buttons for the happy path, a
+refund, and the failure paths, a form for your own orders, and an order lookup. Or use each sample's `.http` file or
+the `curl` commands in its README.
+
 ## Saga patterns
 
 *Software Architecture: The Hard Parts* (Ford, Richards, Sadalage, Dehghani) names eight sagas, one for each
@@ -82,8 +100,8 @@ dotnet run --project src/TicketTide.AppHost
 
 Open the Aspire dashboard link printed in the console. When the `api` resource is healthy, the API is at
 `http://localhost:5240`. Open it in a browser for the sample's home page: a button for the happy path and each
-failure path, and a form for your own orders. Or follow that sample's README, or run the requests in
-`src/TicketTide.Api/TicketTide.Api.http`.
+failure path, and a form for your own orders. Or follow that sample's README, or run the requests in its `.http`
+file (`src/TicketTide.Api/TicketTide.Api.http`, or `src/TicketTide.Web/TicketTide.Web.http` for the monolith samples).
 
 Every sample uses the same ports, so run one sample at a time. Stop it with Ctrl+C.
 

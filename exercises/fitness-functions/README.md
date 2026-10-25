@@ -31,22 +31,23 @@ The app exits with code 1 if any fitness function fails, so it could run as a CI
 ## Steps
 
 1. **Run it (2 min).** The one example rule passes.
-2. **Write rules for these decisions (15 min).** Add each one to the "Your fitness functions" section. Copy the example's shape.
+2. **Write rules for these decisions (12 min).** Add each one to the "Your fitness functions" section. Copy the example's shape.
    1. *Core does not depend on Infrastructure* (the dependency rule from Clean Architecture).
    2. *Classes implementing `IOrderRepository` reside in `TicketTide.Infrastructure`.*
    3. *Billing does not depend on Orders.* Orders may call Billing, but not the reverse.
    4. *Pricing stays fast.* Time 100,000 calls to `PriceCalculator.Total` with a `Stopwatch` and use `CheckThat` to require under 200 ms.
-3. **Run again (1 min).** Which rules fail, and which types does each failure name?
-4. **Fix the code, not the rules (10 min).** Make every rule pass without deleting or weakening a rule.
-5. **Write the ADR link (2 min).** For one rule, write a comment naming the decision it protects, for example `// ADR-0003: Core has no infrastructure dependencies`.
+3. **Run again (1 min).** Which rules fail, and which types does each failure name? Commit your rules (`git commit -am "Add fitness functions"`) so the next step's diff shows only what the agent changed.
+4. **Let an agent try first (5 min).** Ask your AI agent "`dotnet run fitness.cs` fails. Make it pass." Don't mention the rules. When it's done, run `git diff`. Did it change the code, or did it delete or weaken a rule? Rules and code are in the same file here, which makes the shortcut easy to take.
+5. **Fix the code, not the rules (8 min).** Keep the agent's change if it fixed the code properly. Otherwise, undo it with `git checkout fitness.cs` and fix the code yourselves. Make every rule pass without deleting or weakening a rule.
+6. **Write the ADR link (2 min).** For one rule, write a comment naming the decision it protects, for example `// ADR-0003: Core has no infrastructure dependencies`.
 
-1-day: do rules 1 and 2, then fix the code they catch.
+1-day: do rules 1 and 2, let the agent try, then fix the code they catch.
 
 ## Debrief questions
 
 - Which of your rules are *atomic* and which are *holistic*? Which are *triggered* and which could run *continually*?
 - The performance check passes on your laptop. Would it be reliable in CI? How would you make it less noisy?
-- If an AI agent "fixed" a failing rule by editing the rule, would you notice? What would stop it?
+- Did your agent fix the code or edit a rule? If the same change were buried in a large pull request, would you notice? What would stop it?
 - What decision in your own codebase would you protect first?
 
 ## Optional exercise: break a dependency cycle

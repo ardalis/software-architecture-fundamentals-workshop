@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TicketTide.AppHost/TicketTide.AppHost.csproj" />
+    <Project Path="src/TicketTide.ServiceDefaults/TicketTide.ServiceDefaults.csproj" />
+    <Project Path="src/TicketTide.Web/TicketTide.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TicketTide.EndToEndTests/TicketTide.EndToEndTests.csproj" />
+  </Folder>
+</Solution>

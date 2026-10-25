@@ -1,5 +1,5 @@
 <Project>
-  <!-- Central package management: every saga sample uses the same versions. -->
+  <!-- Central package management: every sample uses the same versions. -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <AspireVersion>13.6.3</AspireVersion>
@@ -27,6 +27,7 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryVersion)" />
   </ItemGroup>
   <ItemGroup Label="Application">
+    <PackageVersion Include="Ardalis.Result" Version="10.1.0" />
     <PackageVersion Include="FastEndpoints" Version="8.3.0" />
     <PackageVersion Include="MailKit" Version="4.18.1" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />

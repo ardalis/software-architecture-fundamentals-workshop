@@ -1,0 +1,37 @@
+/* Monolithic styles diagrams: grey layers and web, green domain, yellow data and infrastructure.
+   Loaded by the player (see `stylesheet` in each diagram). */
+
+svg[data-diagram='layered-architecture'],
+svg[data-diagram='clean-architecture'],
+svg[data-diagram='vertical-slice-architecture'] {
+  --layer-fill: #e6e6e6;
+  --domain-fill: #abefc6;
+  --data-fill: #fff3bf;
+  --new-fill: #cfe2ff;
+  --node-font-size: 30px;
+  --label-font-size: 24px;
+  --edge-dash: 6 6;
+}
+
+svg:is([data-diagram='layered-architecture'], [data-diagram='clean-architecture'], [data-diagram='vertical-slice-architecture']) .node.layer rect {
+  fill: var(--layer-fill);
+}
+
+svg:is([data-diagram='layered-architecture'], [data-diagram='clean-architecture'], [data-diagram='vertical-slice-architecture']) .node.domain rect {
+  fill: var(--domain-fill);
+}
+
+svg:is([data-diagram='layered-architecture'], [data-diagram='clean-architecture'], [data-diagram='vertical-slice-architecture']) .node.data rect {
+  fill: var(--data-fill);
+}
+
+svg:is([data-diagram='layered-architecture'], [data-diagram='clean-architecture'], [data-diagram='vertical-slice-architecture']) .node.new rect {
+  fill: var(--new-fill);
+  stroke-dasharray: 10 8;
+}
+
+/* A slice lists its parts under its name, so its text is a little smaller. */
+svg[data-diagram='vertical-slice-architecture'] .node.domain text,
+svg[data-diagram='vertical-slice-architecture'] .node.new text {
+  font-size: 28px;
+}

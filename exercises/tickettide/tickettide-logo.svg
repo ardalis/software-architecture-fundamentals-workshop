@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" role="img" aria-labelledby="title">
+  <title id="title">TicketTide</title>
+  <!-- A ticket with notched sides, and a wave across it: tickets for the venues TicketTide serves. -->
+  <path d="M14 22 h108 a10 10 0 0 1 10 10 v20 a18 18 0 0 0 0 36 v20 a10 10 0 0 1 -10 10 h-108 a10 10 0 0 1 -10 -10 v-20 a18 18 0 0 0 0 -36 v-20 a10 10 0 0 1 10 -10 z" fill="#0b6e8a"/>
+  <line x1="94" y1="30" x2="94" y2="110" stroke="#ffffff" stroke-width="3" stroke-dasharray="6 6" opacity="0.7"/>
+  <path d="M18 84 q10 -14 20 0 t20 0 t20 0" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M18 62 q10 -14 20 0 t20 0 t20 0" fill="none" stroke="#7fd6e6" stroke-width="7" stroke-linecap="round"/>
+  <text x="156" y="92" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="60" font-weight="700" fill="#0b6e8a">Ticket<tspan fill="#0e8fab">Tide</tspan></text>
+</svg>

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The domain model, its rules, and the interfaces it needs from the outside world.
+    No EF Core, ASP.NET Core, or SMTP, and no project references: everything else depends on Core.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Result" />
+  </ItemGroup>
+
+</Project>

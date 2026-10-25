@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Monolithic Architecture Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <link rel="stylesheet" href="page.css">
+  <style>
+    main { max-width: 860px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="back"><a href="../">All diagrams</a></p>
+    <h1>Monolithic Architecture Styles</h1>
+    <p>
+      One deployable, organized four ways. The Clean Architecture and Vertical Slice diagrams follow the
+      <code>samples/clean-architecture</code> and <code>samples/vertical-slice</code> samples, which build the same
+      TicketTide API in each style.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Diagram</th><th>What it shows</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="layered/">Layered (N-tier)</a></td><td>Layers call down to the database; relaxed layering and the architecture sinkhole</td></tr>
+          <tr><td><a href="clean-architecture/">Clean Architecture</a></td><td>Every project references Core; at runtime, calls go out through Core's interfaces</td></tr>
+          <tr><td><a href="vertical-slice/">Vertical Slice Architecture</a></td><td>One slice per feature over a small shared base; a new feature is a new slice</td></tr>
+          <tr><td><a href="../class-libraries-only/">Class Libraries Only</a></td><td>A monolith's modules reference each other freely and form cycles</td></tr>
+          <tr><td><a href="../modules-and-contracts/">Modules and Contracts</a></td><td>A modular monolith: modules depend only on each other's contracts</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
