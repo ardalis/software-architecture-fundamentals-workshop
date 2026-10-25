@@ -1,0 +1,19 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.6.3">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>tickettide-time-travel-saga-apphost</UserSecretsId>
+    <!-- Runs with plain `dotnet run`; the Aspire CLI bundle is optional. -->
+    <NoWarn>$(NoWarn);ASPIRE010</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.PapercutSmtp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Api\TicketTide.Api.csproj" />
+  </ItemGroup>
+
+</Project>

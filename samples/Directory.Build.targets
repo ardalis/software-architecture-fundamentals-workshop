@@ -1,0 +1,7 @@
+<Project>
+  <!-- Without the diagrams, the API would build fine and then fail at startup, so fail the build instead. -->
+  <Target Name="CheckSagaDiagramsDir" BeforeTargets="BeforeBuild" Condition="'$(MSBuildProjectName)' == 'TicketTide.Api'">
+    <Error Condition="!Exists('$(SagaDiagramsDir)saga-kit.js')"
+           Text="The saga diagrams were not found in '$(SagaDiagramsDir)'. Copy diagrams/sagas next to samples/, or point SagaDiagramsDir in samples/Directory.Build.props at them." />
+  </Target>
+</Project>

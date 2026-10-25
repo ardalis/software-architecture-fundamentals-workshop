@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="MailKit" />
+  </ItemGroup>
+
+  <!--
+    Checkout publishes Order Placed and listens to everyone else's events to keep the order's status and
+    history up to date. It references only the other modules' contracts, never the modules themselves.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Messaging\TicketTide.Messaging.csproj" />
+    <ProjectReference Include="..\TicketTide.Checkout.Contracts\TicketTide.Checkout.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing.Contracts\TicketTide.Ticketing.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

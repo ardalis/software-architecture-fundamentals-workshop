@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.ServiceDefaults\TicketTide.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\TicketTide.Checkout\TicketTide.Checkout.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory\TicketTide.Inventory.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments\TicketTide.Payments.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing\TicketTide.Ticketing.csproj" />
+  </ItemGroup>
+
+  <!-- The home page is shared by every sample. Edit samples/shared/HomePage, not a copy. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\shared\HomePage\HomePage.cs" Link="HomePage\HomePage.cs" />
+    <EmbeddedResource Include="..\..\..\shared\HomePage\index.html" Link="HomePage\index.html" LogicalName="TicketTide.Api.HomePage.index.html" />
+    <!-- The home page's diagram dialog loads the saga diagrams from diagrams/sagas (SagaDiagramsDir in samples/Directory.Build.props). Edit them there. -->
+    <EmbeddedResource Include="$(SagaDiagramsDir)**\*.js;$(SagaDiagramsDir)sagas.css" Link="Diagrams\sagas\%(RecursiveDir)%(Filename)%(Extension)" LogicalName="TicketTide.Api.Diagrams/sagas/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+  <!-- Inventory knows the next link in the chain: Payments. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

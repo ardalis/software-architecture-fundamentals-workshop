@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+  </ItemGroup>
+
+  <!-- Ticketing reacts to events from Payments (upstream) only. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Messaging\TicketTide.Messaging.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing.Contracts\TicketTide.Ticketing.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

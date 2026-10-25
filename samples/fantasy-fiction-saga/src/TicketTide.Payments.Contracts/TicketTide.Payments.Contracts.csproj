@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Public messages only. Other modules may reference this project, never the module itself. -->
+
+</Project>

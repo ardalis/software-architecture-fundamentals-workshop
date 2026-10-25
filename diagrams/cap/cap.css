@@ -1,0 +1,65 @@
+/* CAP / PACELC diagrams: grey client, green services, yellow cache and queues.
+   Failures are red, stale answers orange, and the network partition a red zigzag.
+   Loaded by the player (see `stylesheet` in cap-kit.js). */
+
+svg[data-diagram^='cap-'] {
+  --client-fill: #e6e6e6;
+  --service-fill: #abefc6;
+  --store-fill: #fff3bf;
+  --fail: #c00000;
+  --stale: #c2410c;
+  --node-font-size: 30px;
+  --edge-dash: 6 6;
+}
+
+svg[data-diagram^='cap-'] .node.client rect {
+  fill: var(--client-fill);
+}
+
+svg[data-diagram^='cap-'] .node.service rect {
+  fill: var(--service-fill);
+}
+
+svg[data-diagram^='cap-'] .node.cache rect,
+svg[data-diagram^='cap-'] .node.queue rect {
+  fill: var(--store-fill);
+}
+
+svg[data-diagram^='cap-'] .node.cache text,
+svg[data-diagram^='cap-'] .node.queue text {
+  font-size: 24px;
+}
+
+svg[data-diagram^='cap-'] .edge.fail .edge-line {
+  stroke: var(--fail);
+}
+
+svg[data-diagram^='cap-'] .edge.fail .edge-arrow,
+svg[data-diagram^='cap-'] .edge-label.fail text {
+  fill: var(--fail);
+}
+
+svg[data-diagram^='cap-'] .edge.stale .edge-line {
+  stroke: var(--stale);
+}
+
+svg[data-diagram^='cap-'] .edge.stale .edge-arrow,
+svg[data-diagram^='cap-'] .edge-label.stale text {
+  fill: var(--stale);
+}
+
+/* The partition is a jagged cut, not a message: thick red, no arrowhead. */
+svg[data-diagram^='cap-'] .edge.partition .edge-line {
+  stroke: var(--fail);
+  stroke-width: 5;
+}
+
+svg[data-diagram^='cap-'] .edge.partition .edge-arrow {
+  visibility: hidden;
+}
+
+svg[data-diagram^='cap-'] .edge-label.partition text {
+  fill: var(--fail);
+  font-weight: 700;
+  letter-spacing: 1px;
+}

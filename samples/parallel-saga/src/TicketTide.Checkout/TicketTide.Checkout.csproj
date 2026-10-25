@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+  <!-- The orchestrator talks to the other modules only through their contracts, over RabbitMQ. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Messaging\TicketTide.Messaging.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing.Contracts\TicketTide.Ticketing.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

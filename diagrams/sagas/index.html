@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saga Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <link rel="stylesheet" href="page.css">
+  <style>
+    main { max-width: 860px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="back"><a href="../">All diagrams</a></p>
+    <h1>Saga Patterns</h1>
+    <p>
+      A saga coordinates a workflow that spans several services, each with its own database.
+      <em>Software Architecture: The Hard Parts</em> (Ford, Richards, Sadalage, Dehghani) names eight sagas,
+      one for each combination of three choices:
+      <strong>communication</strong> (synchronous or asynchronous),
+      <strong>consistency</strong> (atomic or eventual), and
+      <strong>coordination</strong> (orchestrated or choreographed).
+    </p>
+    <p>
+      Every diagram tells the same TicketTide story: a fan buys tickets, so Inventory holds seats,
+      Payments charges the card, and Ticketing issues the tickets. Each diagram plays that happy path first,
+      then resets and replays the purchase with Ticketing failing.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Saga</th><th>Communication</th><th>Consistency</th><th>Coordination</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="epic-saga/">Epic Saga</a></td><td>Synchronous</td><td>Atomic</td><td>Orchestrated</td></tr>
+          <tr><td><a href="phone-tag-saga/">Phone Tag Saga</a></td><td>Synchronous</td><td>Atomic</td><td>Choreographed</td></tr>
+          <tr><td><a href="fairy-tale-saga/">Fairy Tale Saga</a></td><td>Synchronous</td><td>Eventual</td><td>Orchestrated</td></tr>
+          <tr><td><a href="time-travel-saga/">Time Travel Saga</a></td><td>Synchronous</td><td>Eventual</td><td>Choreographed</td></tr>
+          <tr><td><a href="fantasy-fiction-saga/">Fantasy Fiction Saga</a></td><td>Asynchronous</td><td>Atomic</td><td>Orchestrated</td></tr>
+          <tr><td><a href="horror-story-saga/">Horror Story Saga</a></td><td>Asynchronous</td><td>Atomic</td><td>Choreographed</td></tr>
+          <tr><td><a href="parallel-saga/">Parallel Saga</a></td><td>Asynchronous</td><td>Eventual</td><td>Orchestrated</td></tr>
+          <tr><td><a href="anthology-saga/">Anthology Saga</a></td><td>Asynchronous</td><td>Eventual</td><td>Choreographed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

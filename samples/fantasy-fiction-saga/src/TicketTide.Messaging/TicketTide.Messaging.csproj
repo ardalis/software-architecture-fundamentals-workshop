@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A deliberately small RabbitMQ publisher/consumer, so you can see every moving part. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.RabbitMQ.Client" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+  </ItemGroup>
+
+  <!-- Payments reacts to Inventory's events, so it references only Inventory's contracts. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Messaging\TicketTide.Messaging.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

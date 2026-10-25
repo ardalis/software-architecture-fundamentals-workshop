@@ -1,0 +1,20 @@
+<Project>
+  <!-- Shared settings for every saga sample. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    The animated saga diagrams each home page plays (see shared/HomePage). They live outside samples/, in
+    diagrams/sagas, so if the samples move without diagrams/ beside them, change this one path.
+    Directory.Build.targets fails the build if it doesn't point at the diagrams.
+  -->
+  <PropertyGroup>
+    <SagaDiagramsDir>$(MSBuildThisFileDirectory)..\diagrams\sagas\</SagaDiagramsDir>
+  </PropertyGroup>
+</Project>

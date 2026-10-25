@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+  </ItemGroup>
+
+  <!-- Inventory reacts to events from Checkout (upstream) and from Payments and Ticketing (downstream failures). -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Messaging\TicketTide.Messaging.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Checkout.Contracts\TicketTide.Checkout.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing.Contracts\TicketTide.Ticketing.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

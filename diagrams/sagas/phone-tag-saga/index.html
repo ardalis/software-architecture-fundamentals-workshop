@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phone Tag Saga</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script type="importmap">
+    {
+      "imports": {
+        "animejs": "https://cdn.jsdelivr.net/npm/animejs@4/+esm",
+        "animated-diagrams/model": "https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/diagram-model.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <link rel="stylesheet" href="../page.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="../">All saga patterns</a></p>
+    <h1>Phone Tag Saga: Synchronous, Atomic, Choreographed</h1>
+    <div class="diagram-player" data-diagram="phone-tag-saga.js" data-keyboard="page"></div>
+    <p class="legend">Solid arrows are synchronous calls; dashed arrows are asynchronous messages.
+      <span class="fail">Red</span> marks a failure; <span class="compensate">orange</span> marks a compensating (undo) action.</p>
+  </main>
+  <script type="module" src="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/autoload.js"></script>
+</body>
+</html>

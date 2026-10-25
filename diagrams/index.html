@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animated Diagrams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <style>
+    main { max-width: 640px; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li + li { margin-top: 12px; }
+    a {
+      display: block;
+      padding: 12px 16px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgb(0 0 0 / 0.08);
+      color: #333333;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    a:hover, a:focus-visible { outline: 2px solid #333333; }
+    a span { display: block; font-weight: 400; font-size: 0.9rem; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Animated Diagrams</h1>
+    <ul>
+      <li>
+        <a href="class-libraries-only/">Class Libraries Only
+          <span>Modules reference each other directly, creating two circular dependencies.</span></a>
+      </li>
+      <li>
+        <a href="modules-and-contracts/">Modules and Contracts
+          <span>Modules depend only on each other's contracts projects.</span></a>
+      </li>
+      <li>
+        <a href="sagas/">Saga Patterns
+          <span>The eight sagas from Software Architecture: The Hard Parts, from Epic to Anthology.</span></a>
+      </li>
+      <li>
+        <a href="cap/">CAP, PACELC, and Microservices
+          <span>What happens to queries and commands between services when the network is partitioned.</span></a>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The events Checkout publishes. Other modules may reference this project, never the module itself. -->
+
+</Project>

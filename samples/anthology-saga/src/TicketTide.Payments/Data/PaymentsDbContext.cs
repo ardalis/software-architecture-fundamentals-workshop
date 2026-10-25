@@ -1,0 +1,55 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace TicketTide.Payments.Data;
+
+internal sealed class PaymentsDbContext(DbContextOptions<PaymentsDbContext> options) : DbContext(options)
+{
+    public DbSet<Payment> Payments => Set<Payment>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Payment>(e =>
+        {
+            e.HasKey(x => x.OrderId);
+            e.Property(x => x.Amount).HasPrecision(10, 2);
+            e.Property(x => x.Status).HasConversion<string>();
+        });
+    }
+}
+
+// There is no Refunded status: in this saga nothing after the charge can undo it.
+// Ticketing failures are retried, never compensated.
+internal enum PaymentStatus
+{
+    Charged,
+    Declined,
+}
+
+internal sealed class Payment
+{
+    public Guid OrderId { get; init; }
+
+    public decimal Amount { get; init; }
+
+    public PaymentStatus Status { get; set; }
+
+    /// <summary>The provider's id for the charge.</summary>
+    public string? ProviderReference { get; set; }
+
+    public string? FailureReason { get; set; }
+
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+internal sealed class PaymentsDatabaseInitializer(IServiceScopeFactory scopeFactory) : IHostedService
+{
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        await using var scope = scopeFactory.CreateAsyncScope();
+        await scope.ServiceProvider.GetRequiredService<PaymentsDbContext>().Database.EnsureCreatedAsync(cancellationToken);
+    }
+
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+}

@@ -1,0 +1,41 @@
+<Project>
+  <!-- Central package management: every saga sample uses the same versions. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <AspireVersion>13.6.3</AspireVersion>
+    <OpenTelemetryVersion>1.20.1</OpenTelemetryVersion>
+    <!-- Pin transitive dependencies so security fixes win over older versions pulled in by packages. -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup Label="Aspire hosting">
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="$(AspireVersion)" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.PapercutSmtp" Version="13.6.0" />
+  </ItemGroup>
+  <ItemGroup Label="Aspire client integrations">
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.6.4" />
+  </ItemGroup>
+  <ItemGroup Label="Service defaults">
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.11.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetryVersion)" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryVersion)" />
+  </ItemGroup>
+  <ItemGroup Label="Application">
+    <PackageVersion Include="FastEndpoints" Version="8.3.0" />
+    <PackageVersion Include="MailKit" Version="4.18.1" />
+    <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
+    <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
+  </ItemGroup>
+  <ItemGroup Label="Transitive security pins">
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
+  <ItemGroup Label="Testing">
+    <PackageVersion Include="xunit.v3" Version="4.0.2" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,26 @@
+/* Modules and Contracts: green modules, grey contracts, smaller type.
+   Loaded by the player (see `stylesheet` in modules-and-contracts.js). */
+
+svg[data-diagram='modules-and-contracts'] {
+  --module-fill: #abefc6;
+  --contract-fill: #e6e6e6;
+  --node-stroke: #222222;
+  --node-stroke-width: 1.5;
+  --node-font-size: 22px;
+  --edge-stroke-width: 1.5;
+  --edge-dash: 1.5 3;
+  --label-font-size: 13px;
+}
+
+svg[data-diagram='modules-and-contracts'] .node.module rect {
+  fill: var(--module-fill);
+}
+
+svg[data-diagram='modules-and-contracts'] .node.contract rect {
+  fill: var(--contract-fill);
+}
+
+/* The longest contracts label needs a smaller size to fit its box. */
+svg[data-diagram='modules-and-contracts'] [data-node='cart-contracts'] text {
+  font-size: 17px;
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+  <!--
+    Payments knows the next link in the chain (Ticketing), and it owns that hand-off.
+    When it finishes the hand-off late, in the background, it tells Checkout directly.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Payments.Contracts\TicketTide.Payments.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Ticketing.Contracts\TicketTide.Ticketing.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Checkout.Contracts\TicketTide.Checkout.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

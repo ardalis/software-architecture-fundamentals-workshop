@@ -1,0 +1,71 @@
+# Fairy Tale Saga requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/inventory/events
+
+### Happy path: buy two tickets
+# @name happy
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Follow the saga for that order
+GET {{api}}/orders/{{happy.response.body.$.orderId}}
+
+### Ticketing fails 3 times: 202 Accepted and Pending now, Confirmed after the orchestrator retries
+# @name pending
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "patient-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailures": 3
+}
+
+### Watch the order: run this a few times. Pending, then Confirmed after about 3 seconds
+GET {{api}}/orders/{{pending.response.body.$.orderId}}
+
+### Ticketing's attempts count goes up with every retry
+GET {{api}}/tickets/{{pending.response.body.$.orderId}}
+
+### Nothing was undone: the seats are still held...
+GET {{api}}/inventory/holds/{{pending.response.body.$.orderId}}
+
+### ...and the card is still charged
+GET {{api}}/payments/{{pending.response.body.$.orderId}}
+
+### Payment declined: a business failure, so no retry. The seats are released and Ticketing is never called
+# @name declined
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+###
+GET {{api}}/inventory/holds/{{declined.response.body.$.orderId}}
+
+### Sold out: Back Room Sessions only has 4 seats
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}

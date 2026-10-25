@@ -1,0 +1,344 @@
+<!doctype html>
+<!--
+  The home page for every saga sample. Each sample's TicketTide.Api links this file (and HomePage.cs),
+  so edit it here, in samples/shared/HomePage, and every sample gets the change.
+  HomePage.cs fills in the double-brace placeholders with the sample's name and settings.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{SampleName}} - TicketTide</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme: light dark; --accent: #0b7285; --ok: #2b8a3e; --bad: #c92a2a; --wait: #e67700; --line: #8884; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 64rem; padding: 1.5rem; line-height: 1.45; }
+    h1 { margin: 0 0 .25rem; }
+    h2 { margin-top: 2rem; border-bottom: 1px solid var(--line); padding-bottom: .25rem; }
+    .tagline { margin: 0 0 1rem; opacity: .8; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: .3rem .6rem; border-bottom: 1px solid var(--line); }
+    .scenarios { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .75rem; }
+    .scenario { border: 1px solid var(--line); border-radius: .5rem; padding: .75rem; display: flex; flex-direction: column; gap: .5rem; }
+    .scenario p { margin: 0; flex: 1; font-size: .9rem; }
+    button { font: inherit; cursor: pointer; padding: .4rem .8rem; border-radius: .4rem; border: 1px solid var(--accent); background: var(--accent); color: white; }
+    button.secondary { background: transparent; color: inherit; }
+    button:disabled { opacity: .5; cursor: wait; }
+    form { display: grid; grid-template-columns: max-content 1fr; gap: .5rem .75rem; align-items: center; max-width: 36rem; }
+    form button { grid-column: 2; justify-self: start; }
+    input, select { font: inherit; padding: .3rem; }
+    .status { font-weight: bold; }
+    .status.Confirmed, .status.Held, .status.Charged, .status.Issued, .status.ok { color: var(--ok); }
+    .status.Failed, .status.Released, .status.Refunded, .status.Declined, .status.Voided, .status.error { color: var(--bad); }
+    .status.Pending { color: var(--wait); }
+    ol { padding-left: 1.5rem; }
+    pre { background: #8881; padding: .75rem; overflow-x: auto; border-radius: .4rem; font-size: .85rem; }
+    .modules { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .75rem; }
+    .module { border: 1px solid var(--line); border-radius: .5rem; padding: .5rem .75rem; }
+    .module h3 { margin: 0 0 .25rem; font-size: 1rem; }
+    .module pre { margin: 0; }
+    [hidden] { display: none !important; }
+    /* The diagram dialog keeps the diagram pages' light look, even in dark mode. */
+    /* The diagrams are about 2:1, plus ~20rem of title, captions, controls and legend: size by height so it all fits. */
+    #diagram-dialog { color-scheme: light; width: min(96vw, 90rem, calc((96vh - 20rem) * 2)); min-width: min(96vw, 36rem); max-height: 96vh; padding: 1rem 1.25rem; border: none; border-radius: .5rem; background: #f4f4f2; color: #333; font-family: 'Open Sans', system-ui, sans-serif; }
+    #diagram-dialog::backdrop { background: rgb(0 0 0 / .6); }
+    #diagram-dialog header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: .75rem; }
+    #diagram-dialog h2 { margin: 0; border: none; padding: 0; font-size: 1.25rem; }
+    #diagram-dialog .legend { margin: .75rem 0 0; font-size: .9rem; }
+    #diagram-dialog .fail { color: #c00000; font-weight: 700; }
+    #diagram-dialog .compensate { color: #c2410c; font-weight: 700; }
+  </style>
+  <!-- The diagram dialog's engine; the diagram files themselves are served by this app from diagrams/sagas. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "animejs": "https://cdn.jsdelivr.net/npm/animejs@4/+esm",
+        "animated-diagrams/model": "https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/diagram-model.js",
+        "animated-diagrams/player": "https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/player.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>{{SampleName}}</h1>
+  <p class="tagline">{{Summary}}</p>
+  <p><button type="button" class="secondary" id="show-diagram" aria-haspopup="dialog">See the diagram</button></p>
+  <p>
+    Each button below places an order with <code>POST /orders</code>, then follows it with <code>GET /orders/{id}</code>
+    until the saga finishes, and shows what each module recorded. See the sample's README for the walkthrough.
+  </p>
+
+  <h2>Events on sale</h2>
+  <table>
+    <thead><tr><th>Event</th><th>Id</th><th>Price</th><th>Seats left</th></tr></thead>
+    <tbody id="events"><tr><td colspan="4">Loading...</td></tr></tbody>
+  </table>
+
+  <h2>Try a scenario</h2>
+  <div class="scenarios">
+    <div class="scenario">
+      <strong>Happy path</strong>
+      <p>Buy two tickets for The Midnight Tide with a card that works.</p>
+      <button type="button" data-scenario="happy">Buy tickets</button>
+    </div>
+    <div class="scenario">
+      <strong>Ticketing fails</strong>
+      <p>
+        Ticketing fails the first <strong>{{TicketingFailures}}</strong> attempt(s) for this order.
+        {{TicketingFailureOutcome}}
+      </p>
+      <button type="button" data-scenario="ticketing">Buy tickets, Ticketing fails</button>
+    </div>
+    <div class="scenario">
+      <strong>Card declined</strong>
+      <p>The fake payment provider declines <code>tok_declined</code>. Anything already done is undone.</p>
+      <button type="button" data-scenario="declined">Buy with a declined card</button>
+    </div>
+    <div class="scenario">
+      <strong>Sold out</strong>
+      <p>Five seats for Back Room Sessions, which only has four.</p>
+      <button type="button" data-scenario="soldOut">Buy too many seats</button>
+    </div>
+    <div class="scenario">
+      <strong>Bad request</strong>
+      <p>Zero tickets and an invalid email: <code>400</code> with validation errors.</p>
+      <button type="button" data-scenario="invalid">Send a bad request</button>
+    </div>
+  </div>
+
+  <h2>Or build your own order</h2>
+  <form id="order-form">
+    <label for="eventId">Event</label>
+    <input id="eventId" name="eventId" list="event-ids" value="midnight-tide" required>
+    <datalist id="event-ids"></datalist>
+    <label for="quantity">Quantity</label>
+    <input id="quantity" name="quantity" type="number" value="2">
+    <label for="fanEmail">Fan email</label>
+    <input id="fanEmail" name="fanEmail" value="fan@example.com">
+    <label for="paymentToken">Payment token</label>
+    <select id="paymentToken" name="paymentToken">
+      <option value="tok_visa">tok_visa (succeeds)</option>
+      <option value="tok_declined">tok_declined (declined)</option>
+    </select>
+    <label for="simulateTicketingFailures">Ticketing failures</label>
+    <input id="simulateTicketingFailures" name="simulateTicketingFailures" type="number" value="0">
+    <button type="submit">Place order</button>
+  </form>
+
+  <section id="result" hidden>
+    <h2>Result</h2>
+    <p id="summary"></p>
+    <h3>Saga history</h3>
+    <ol id="history"></ol>
+    <h3>What each module recorded</h3>
+    <div class="modules" id="modules"></div>
+    <h3>Last response</h3>
+    <pre id="raw"></pre>
+  </section>
+
+  <dialog id="diagram-dialog" aria-labelledby="diagram-title">
+    <header>
+      <h2 id="diagram-title">{{SampleName}}</h2>
+      <button type="button" class="secondary" id="close-diagram">Close</button>
+    </header>
+    <div id="diagram-player" data-diagram="{{DiagramUrl}}"></div>
+    <p class="legend">Solid arrows are synchronous calls; dashed arrows are asynchronous messages.
+      <span class="fail">Red</span> marks a failure; <span class="compensate">orange</span> marks a compensating (undo) action.</p>
+  </dialog>
+
+  <script type="module">
+    // Mount the diagram each time the dialog opens, so it plays from the start, and destroy it on close,
+    // which stops playback and speech.
+    const dialog = document.getElementById("diagram-dialog");
+    const root = document.getElementById("diagram-player");
+    let player = null;
+    let opens = 0; // Each open mounts into its own element, so one still loading after a close can't touch the next.
+
+    document.getElementById("show-diagram").addEventListener("click", async () => {
+      const open = ++opens;
+      const stale = () => open !== opens || !dialog.open;
+      const host = document.createElement("div");
+      host.textContent = "Loading the diagram...";
+      root.replaceChildren(host);
+      dialog.showModal();
+      try {
+        const [{ mountDiagram }, { default: diagram }] = await Promise.all([
+          import("animated-diagrams/player"),
+          import(root.dataset.diagram),
+        ]);
+        if (stale()) return;
+        document.getElementById("diagram-title").textContent = diagram.title;
+        const mounted = await mountDiagram(diagram, host);
+        if (stale()) { mounted.destroy(); return; }
+        player = mounted;
+        host.focus();
+      } catch (error) {
+        if (stale()) return;
+        console.error(error);
+        host.textContent = `The diagram could not be loaded: ${error}`;
+      }
+    });
+
+    document.getElementById("close-diagram").addEventListener("click", () => dialog.close());
+    // A click on the backdrop lands on the dialog itself.
+    dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener("close", () => {
+      opens++;
+      player?.destroy();
+      player = null;
+      root.replaceChildren();
+    });
+  </script>
+
+  <script>
+    const defaultTicketingFailures = Number("{{TicketingFailures}}");
+    const scenarios = {
+      happy: { eventId: "midnight-tide", quantity: 2, fanEmail: "fan@example.com", paymentToken: "tok_visa", simulateTicketingFailures: 0 },
+      ticketing: { eventId: "midnight-tide", quantity: 2, fanEmail: "patient-fan@example.com", paymentToken: "tok_visa", simulateTicketingFailures: defaultTicketingFailures },
+      declined: { eventId: "midnight-tide", quantity: 1, fanEmail: "declined-fan@example.com", paymentToken: "tok_declined", simulateTicketingFailures: 0 },
+      soldOut: { eventId: "back-room-sessions", quantity: 5, fanEmail: "late-fan@example.com", paymentToken: "tok_visa", simulateTicketingFailures: 0 },
+      invalid: { eventId: "midnight-tide", quantity: 0, fanEmail: "not-an-email", paymentToken: "tok_visa", simulateTicketingFailures: 0 },
+    };
+    const modules = [
+      { name: "Inventory", path: id => `/inventory/holds/${id}` },
+      { name: "Payments", path: id => `/payments/${id}` },
+      { name: "Ticketing", path: id => `/tickets/${id}` },
+    ];
+
+    const $ = id => document.getElementById(id);
+    const form = $("order-form");
+    const buttons = () => document.querySelectorAll("[data-scenario], #order-form button");
+
+    async function getJson(path) {
+      const response = await fetch(path, { headers: { Accept: "application/json" } });
+      const text = await response.text();
+      return { status: response.status, body: text ? JSON.parse(text) : null };
+    }
+
+    function statusSpan(text, cssClass = text) {
+      const span = document.createElement("span");
+      span.className = `status ${cssClass}`;
+      span.textContent = text;
+      return span;
+    }
+
+    async function loadEvents() {
+      const tbody = $("events");
+      try {
+        const { body } = await getJson("/inventory/events");
+        tbody.replaceChildren(...body.map(e => {
+          const row = document.createElement("tr");
+          for (const value of [e.name, e.id, `$${e.price.toFixed(2)}`, `${e.seatsAvailable} of ${e.capacity}`]) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.append(cell);
+          }
+          return row;
+        }));
+        $("event-ids").replaceChildren(...body.map(e => new Option(e.name, e.id)));
+      } catch (error) {
+        tbody.innerHTML = "<tr><td colspan='4'></td></tr>";
+        tbody.querySelector("td").textContent = `Could not load the events: ${error}`;
+      }
+    }
+
+    function showOrder(httpStatus, order, elapsedMs) {
+      $("raw").textContent = `HTTP ${httpStatus}\n${JSON.stringify(order, null, 2)}`;
+      const summary = $("summary");
+      if (!order || !order.orderId) {
+        summary.replaceChildren(statusSpan(`HTTP ${httpStatus}`, "error"), " The order was not placed.");
+        $("history").replaceChildren();
+        return;
+      }
+
+      const details = [order.eventName, order.amount != null ? `$${order.amount.toFixed(2)}` : null, ...order.ticketCodes]
+        .filter(Boolean).join(" · ");
+      summary.replaceChildren(
+        `Order ${order.orderId}: `, statusSpan(order.status),
+        order.failureReason ? ` (${order.failureReason})` : "",
+        details ? ` - ${details}` : "",
+        ` - ${(elapsedMs / 1000).toFixed(1)}s since the order was placed`);
+      $("history").replaceChildren(...order.history.map(h => {
+        const item = document.createElement("li");
+        item.textContent = h;
+        return item;
+      }));
+    }
+
+    async function showModules(orderId) {
+      const cards = await Promise.all(modules.map(async m => {
+        const card = document.createElement("div");
+        card.className = "module";
+        const heading = document.createElement("h3");
+        const { status, body } = await getJson(m.path(orderId));
+        heading.append(`${m.name}: `, status === 404 ? "never heard of this order" : statusSpan(body.status));
+        const pre = document.createElement("pre");
+        pre.textContent = `GET ${m.path(orderId)}\n${status === 404 ? "404 Not Found" : JSON.stringify(body, null, 2)}`;
+        card.append(heading, pre);
+        return card;
+      }));
+      $("modules").replaceChildren(...cards);
+    }
+
+    async function placeOrder(request) {
+      buttons().forEach(b => b.disabled = true);
+      $("result").hidden = false;
+      $("modules").replaceChildren();
+      $("history").replaceChildren();
+      $("summary").textContent = "Placing the order...";
+      const started = performance.now();
+      try {
+        const response = await fetch("/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(request),
+        });
+        let order = await response.json();
+        showOrder(response.status, order, performance.now() - started);
+
+        // Some sagas answer before they finish. Poll the order, like a fan refreshing the page.
+        const deadline = Date.now() + 60_000;
+        while (order?.orderId && order.status === "Pending" && Date.now() < deadline) {
+          await showModules(order.orderId);
+          await new Promise(resolve => setTimeout(resolve, 500));
+          const latest = await getJson(`/orders/${order.orderId}`);
+          order = latest.body;
+          showOrder(latest.status, order, performance.now() - started);
+        }
+
+        if (order?.orderId) {
+          // Compensations can finish just after the order does.
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await showModules(order.orderId);
+        }
+      } catch (error) {
+        $("summary").replaceChildren(statusSpan("Error", "error"), ` ${error}`);
+      } finally {
+        buttons().forEach(b => b.disabled = false);
+        loadEvents();
+      }
+    }
+
+    function fillForm(request) {
+      for (const [name, value] of Object.entries(request)) {
+        form.elements[name].value = value;
+      }
+    }
+
+    document.querySelectorAll("[data-scenario]").forEach(button => button.addEventListener("click", () => {
+      const request = scenarios[button.dataset.scenario];
+      fillForm(request);
+      placeOrder(request);
+    }));
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      placeOrder({ ...data, quantity: Number(data.quantity), simulateTicketingFailures: Number(data.simulateTicketingFailures) });
+    });
+
+    loadEvents();
+  </script>
+</body>
+</html>

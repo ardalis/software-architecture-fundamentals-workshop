@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAP and PACELC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <link rel="stylesheet" href="page.css">
+  <style>
+    main { max-width: 860px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="back"><a href="../">All diagrams</a></p>
+    <h1>CAP, PACELC, and Microservices</h1>
+    <p>
+      The CAP theorem says that when a network <strong>partition</strong> stops two services from talking,
+      a system must choose between <strong>consistency</strong> and <strong>availability</strong>.
+      PACELC adds the rest of the story: if there is a Partition, choose Availability or Consistency;
+      Else, choose lower Latency or Consistency.
+    </p>
+    <p>
+      These diagrams animate the scenarios from
+      <a href="https://ardalis.com/cap-pacelc-and-microservices/">CAP Theorem, PACELC, and Microservices</a>.
+      A client calls Service A, which depends on Services B and C. Each diagram plays the happy path first,
+      then cuts the network and plays it again.
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Scenario</th><th>During a partition</th><th>Otherwise</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="sync-queries/">Synchronous queries</a></td><td>Consistent, not available</td><td>Consistent</td></tr>
+          <tr><td><a href="cached-queries/">Cached queries</a></td><td>Available, serves stale data</td><td>Cache may briefly lag</td></tr>
+          <tr><td><a href="sync-commands/">Synchronous commands</a></td><td>Not available, and inconsistent</td><td>Consistent</td></tr>
+          <tr><td><a href="queued-commands/">Commands and queues</a></td><td>Available, eventually consistent</td><td>Higher latency</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

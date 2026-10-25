@@ -1,0 +1,64 @@
+# Phone Tag Saga requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/inventory/events
+
+### Happy path: buy two tickets
+# @name happy
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Follow the saga for that order: every module reported its step back up the chain
+GET {{api}}/orders/{{happy.response.body.$.orderId}}
+
+### Failure path: Ticketing fails, so Payments refunds the card and then Inventory releases the seats
+# @name failed
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "unlucky-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailures": 1
+}
+
+### What each module did for the failed order
+GET {{api}}/inventory/holds/{{failed.response.body.$.orderId}}
+
+###
+GET {{api}}/payments/{{failed.response.body.$.orderId}}
+
+###
+GET {{api}}/tickets/{{failed.response.body.$.orderId}}
+
+### Payment declined: Payments never calls Ticketing, and Inventory releases the seats
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+### Sold out: Back Room Sessions only has 4 seats, so Inventory never calls Payments
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}

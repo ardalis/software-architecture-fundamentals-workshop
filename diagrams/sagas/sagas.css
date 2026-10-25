@@ -1,0 +1,43 @@
+/* Saga pattern diagrams: grey fan, blue orchestrator, green services.
+   Failures are red; compensating actions are orange.
+   Loaded by the player (see `stylesheet` in saga-kit.js). */
+
+svg[data-diagram^='saga-'] {
+  --fan-fill: #e6e6e6;
+  --orchestrator-fill: #cfe2ff;
+  --service-fill: #abefc6;
+  --fail: #c00000;
+  --compensate: #c2410c;
+  --node-font-size: 30px;
+  --edge-dash: 6 6;
+}
+
+svg[data-diagram^='saga-'] .node.fan rect {
+  fill: var(--fan-fill);
+}
+
+svg[data-diagram^='saga-'] .node.orchestrator rect {
+  fill: var(--orchestrator-fill);
+}
+
+svg[data-diagram^='saga-'] .node.service rect {
+  fill: var(--service-fill);
+}
+
+svg[data-diagram^='saga-'] .edge.fail .edge-line {
+  stroke: var(--fail);
+}
+
+svg[data-diagram^='saga-'] .edge.fail .edge-arrow,
+svg[data-diagram^='saga-'] .edge-label.fail text {
+  fill: var(--fail);
+}
+
+svg[data-diagram^='saga-'] .edge.compensate .edge-line {
+  stroke: var(--compensate);
+}
+
+svg[data-diagram^='saga-'] .edge.compensate .edge-arrow,
+svg[data-diagram^='saga-'] .edge-label.compensate text {
+  fill: var(--compensate);
+}

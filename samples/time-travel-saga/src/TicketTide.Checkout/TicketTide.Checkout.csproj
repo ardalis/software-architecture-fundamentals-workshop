@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+  <!-- There is no orchestrator. Checkout only knows the first link in the chain: Inventory. -->
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Checkout.Contracts\TicketTide.Checkout.Contracts.csproj" />
+    <ProjectReference Include="..\TicketTide.Inventory.Contracts\TicketTide.Inventory.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

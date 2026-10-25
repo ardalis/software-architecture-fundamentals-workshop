@@ -1,0 +1,86 @@
+# Anthology Saga requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+# POST /orders answers at once with 202 Accepted and a Pending order. Poll the order to watch the events arrive.
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/inventory/events
+
+### Happy path: buy two tickets
+# @name happy
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Follow the saga for that order (run it a few times)
+GET {{api}}/orders/{{happy.response.body.$.orderId}}
+
+### Ticketing failure: Ticketing fails 5 times, its message is retried through RabbitMQ, and the tickets arrive later
+# @name retried
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "patient-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailures": 5
+}
+
+### Pending until the tickets are issued
+GET {{api}}/orders/{{retried.response.body.$.orderId}}
+
+### Watch the attempts go up while Ticketing fails
+GET {{api}}/tickets/{{retried.response.body.$.orderId}}
+
+### Nothing upstream is undone: still Charged...
+GET {{api}}/payments/{{retried.response.body.$.orderId}}
+
+### ...and still Held
+GET {{api}}/inventory/holds/{{retried.response.body.$.orderId}}
+
+### Payment declined: a business "no". Inventory reacts by releasing the seats
+# @name declined
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+###
+GET {{api}}/orders/{{declined.response.body.$.orderId}}
+
+###
+GET {{api}}/inventory/holds/{{declined.response.body.$.orderId}}
+
+### Sold out: Back Room Sessions only has 4 seats, so Payments never hears of the order
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Bad request: 400 with validation errors
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 0,
+  "fanEmail": "not-an-email",
+  "paymentToken": "tok_visa"
+}

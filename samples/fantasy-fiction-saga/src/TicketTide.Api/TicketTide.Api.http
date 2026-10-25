@@ -1,0 +1,68 @@
+# Fantasy Fiction Saga requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/inventory/events
+
+### Happy path: buy two tickets. The messages run in parallel, but the request waits for every reply.
+# @name happy
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### The same order, with the replies in the order they arrived
+GET {{api}}/orders/{{happy.response.body.$.orderId}}
+
+### Ticketing fails once. No retry: everything that succeeded is undone, including late replies.
+# @name failed
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "unlucky-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailures": 1
+}
+
+### What each module did for the failed order
+GET {{api}}/inventory/holds/{{failed.response.body.$.orderId}}
+
+###
+GET {{api}}/payments/{{failed.response.body.$.orderId}}
+
+###
+GET {{api}}/tickets/{{failed.response.body.$.orderId}}
+
+### Payment declined: the seats are released and the tickets voided
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+### Sold out: Back Room Sessions only has 4 seats, but the card was charged in parallel, so it is refunded
+# @name soldOut
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+###
+GET {{api}}/payments/{{soldOut.response.body.$.orderId}}

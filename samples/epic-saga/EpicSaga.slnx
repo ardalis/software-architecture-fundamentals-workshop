@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TicketTide.Api/TicketTide.Api.csproj" />
+    <Project Path="src/TicketTide.AppHost/TicketTide.AppHost.csproj" />
+    <Project Path="src/TicketTide.Checkout/TicketTide.Checkout.csproj" />
+    <Project Path="src/TicketTide.Inventory.Contracts/TicketTide.Inventory.Contracts.csproj" />
+    <Project Path="src/TicketTide.Inventory/TicketTide.Inventory.csproj" />
+    <Project Path="src/TicketTide.Payments.Contracts/TicketTide.Payments.Contracts.csproj" />
+    <Project Path="src/TicketTide.Payments/TicketTide.Payments.csproj" />
+    <Project Path="src/TicketTide.ServiceDefaults/TicketTide.ServiceDefaults.csproj" />
+    <Project Path="src/TicketTide.Ticketing.Contracts/TicketTide.Ticketing.Contracts.csproj" />
+    <Project Path="src/TicketTide.Ticketing/TicketTide.Ticketing.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TicketTide.EndToEndTests/TicketTide.EndToEndTests.csproj" />
+  </Folder>
+</Solution>

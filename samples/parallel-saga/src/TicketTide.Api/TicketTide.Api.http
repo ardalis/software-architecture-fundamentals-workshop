@@ -1,0 +1,71 @@
+# Parallel Saga requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/inventory/events
+
+### Happy path: buy two tickets. Answers 202 Accepted at once.
+# @name happy
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Poll the order until it is Confirmed
+GET {{api}}/orders/{{happy.response.body.$.orderId}}
+
+### Ticketing fails three times. The orchestrator retries; nothing is rolled back.
+# @name retried
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "patient-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailures": 3
+}
+
+### Watch the retries in the history
+GET {{api}}/orders/{{retried.response.body.$.orderId}}
+
+###
+GET {{api}}/payments/{{retried.response.body.$.orderId}}
+
+###
+GET {{api}}/tickets/{{retried.response.body.$.orderId}}
+
+### Sold out: the card may already be charged, so it is refunded
+# @name soldOut
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+###
+GET {{api}}/orders/{{soldOut.response.body.$.orderId}}
+
+###
+GET {{api}}/payments/{{soldOut.response.body.$.orderId}}
+
+### Payment declined: the seats are released and the tickets voided
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
