@@ -1,8 +1,9 @@
 <!doctype html>
 <!--
-  The home page for the monolith samples (Clean Architecture and Vertical Slice). Each sample's TicketTide.Web links
-  this file (and HomePage.cs), so edit it here, in samples/shared/MonolithHomePage, and both samples get the change.
-  HomePage.cs fills in the double-brace placeholders with the sample's name and summary.
+  The home page for the monolith samples (Clean Architecture, Vertical Slice, and Atomic Modular Monolith). Each
+  sample's TicketTide.Web links this file (and HomePage.cs), so edit it here, in samples/shared/MonolithHomePage, and
+  every sample gets the change. HomePage.cs fills in the double-brace placeholders with the sample's name and summary,
+  and shows the "Ticketing fails" scenario only for a sample that supports it.
 -->
 <html lang="en">
 <head>
@@ -87,6 +88,11 @@
       <p>Zero tickets and an invalid email: <code>400</code> with validation errors.</p>
       <button type="button" data-scenario="invalid">Send a bad request</button>
     </div>
+    <div class="scenario" {{TicketingFailureHidden}}>
+      <strong>Ticketing fails</strong>
+      <p>Buy two tickets for The Midnight Tide, but Ticketing crashes: <code>500</code>. {{TicketingFailureOutcome}} Check the seats left.</p>
+      <button type="button" data-scenario="ticketingFails">Buy, and Ticketing fails</button>
+    </div>
   </div>
 
   <h2>Or build your own order</h2>
@@ -144,6 +150,7 @@
       soldOut: { request: { eventId: "back-room-sessions", quantity: 5, fanEmail: "late-fan@example.com", paymentToken: "tok_visa" } },
       unknownEvent: { request: { eventId: "no-such-event", quantity: 1, fanEmail: "lost-fan@example.com", paymentToken: "tok_visa" } },
       invalid: { request: { eventId: "midnight-tide", quantity: 0, fanEmail: "not-an-email", paymentToken: "tok_visa" } },
+      ticketingFails: { request: { eventId: "midnight-tide", quantity: 2, fanEmail: "unlucky-fan@example.com", paymentToken: "tok_visa", simulateTicketingFailure: true } },
     };
 
     const $ = id => document.getElementById(id);
@@ -259,7 +266,7 @@
 
     function fillForm(request) {
       for (const [name, value] of Object.entries(request)) {
-        form.elements[name].value = value;
+        if (form.elements[name]) form.elements[name].value = value; // The form has no field for the demo switches.
       }
     }
 

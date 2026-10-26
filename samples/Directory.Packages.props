@@ -10,11 +10,13 @@
   <ItemGroup Label="Aspire hosting">
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.4" />
     <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.6.4" />
     <PackageVersion Include="Aspire.Hosting.Testing" Version="$(AspireVersion)" />
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.PapercutSmtp" Version="13.6.0" />
   </ItemGroup>
   <ItemGroup Label="Aspire client integrations">
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="13.6.4" />
     <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.6.4" />
   </ItemGroup>
   <ItemGroup Label="Service defaults">
@@ -29,14 +31,18 @@
   <ItemGroup Label="Application">
     <PackageVersion Include="Ardalis.Result" Version="10.1.0" />
     <PackageVersion Include="FastEndpoints" Version="8.3.0" />
+    <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="MailKit" Version="4.18.1" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.13" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.13" />
   </ItemGroup>
   <ItemGroup Label="Transitive security pins">
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
   </ItemGroup>
   <ItemGroup Label="Testing">
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
     <PackageVersion Include="xunit.v3" Version="4.0.2" />
   </ItemGroup>
 </Project>

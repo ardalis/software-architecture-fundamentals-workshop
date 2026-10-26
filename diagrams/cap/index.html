@@ -24,7 +24,12 @@
       Else, choose lower Latency or Consistency.
     </p>
     <p>
-      These diagrams animate the scenarios from
+      Start with the two theorems on their own, using two replicas of one value:
+      <a href="cap-theorem/">CAP</a> (a partition forces the choice) and
+      <a href="pacelc/">PACELC</a> (with no partition, waiting for replicas trades latency for consistency).
+    </p>
+    <p>
+      The other diagrams animate the scenarios from
       <a href="https://ardalis.com/cap-pacelc-and-microservices/">CAP Theorem, PACELC, and Microservices</a>.
       A client calls Service A, which depends on Services B and C. Each diagram plays the happy path first,
       then cuts the network and plays it again.

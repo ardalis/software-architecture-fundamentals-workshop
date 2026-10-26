@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The Orders module: a fan's order, and the use cases that change it. It talks to the other modules only through
+    their Contracts projects, never their Internal ones. Only the host references this project.
+  -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TicketTide.SharedKernel\TicketTide.SharedKernel.csproj" />
+    <ProjectReference Include="..\TicketTide.Orders.Contracts\TicketTide.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\Events\TicketTide.Events.Contracts\TicketTide.Events.Contracts.csproj" />
+    <ProjectReference Include="..\..\Tickets\TicketTide.Tickets.Contracts\TicketTide.Tickets.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TicketTide.Orders.Tests" />
+  </ItemGroup>
+
+</Project>

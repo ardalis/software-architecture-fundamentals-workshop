@@ -1,0 +1,19 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.6.3">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>tickettide-atomic-modular-monolith-apphost</UserSecretsId>
+    <!-- Runs with plain `dotnet run`; the Aspire CLI bundle is optional. -->
+    <NoWarn>$(NoWarn);ASPIRE010</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.SqlServer" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.PapercutSmtp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.Web\TicketTide.Web.csproj" />
+  </ItemGroup>
+
+</Project>

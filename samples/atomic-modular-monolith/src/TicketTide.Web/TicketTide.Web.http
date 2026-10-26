@@ -1,0 +1,61 @@
+# TicketTide requests. Start the AppHost first: dotnet run --project src/TicketTide.AppHost
+@api = http://localhost:5240
+
+### Events on sale and seats left
+GET {{api}}/events
+
+### Buy two tickets
+# @name order
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### The order and its tickets
+GET {{api}}/orders/{{order.response.body.$.orderId}}
+
+### Refund it: the tickets stop working and the seats go back on sale
+POST {{api}}/orders/{{order.response.body.$.orderId}}/refund
+
+### Refunding it again breaks a rule: 400
+POST {{api}}/orders/{{order.response.body.$.orderId}}/refund
+
+### Declined card: 422 with the declined order, and no seats taken
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 1,
+  "fanEmail": "declined-fan@example.com",
+  "paymentToken": "tok_declined"
+}
+
+### Not enough seats: Back Room Sessions only has 4
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "back-room-sessions",
+  "quantity": 5,
+  "fanEmail": "late-fan@example.com",
+  "paymentToken": "tok_visa"
+}
+
+### Ticketing crashes after writing the tickets: 500, and ONE rollback undoes every module's work.
+# The seats are still on sale (check GET /events), no tickets or order were saved, and the card was never charged.
+POST {{api}}/orders
+Content-Type: application/json
+
+{
+  "eventId": "midnight-tide",
+  "quantity": 2,
+  "fanEmail": "unlucky-fan@example.com",
+  "paymentToken": "tok_visa",
+  "simulateTicketingFailure": true
+}

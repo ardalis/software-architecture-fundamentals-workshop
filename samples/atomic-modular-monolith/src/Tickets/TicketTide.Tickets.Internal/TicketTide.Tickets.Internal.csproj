@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The Tickets module: the tickets fans hold, whether each still works, and emailing them to the fan. Only the host references this. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TicketTide.SharedKernel\TicketTide.SharedKernel.csproj" />
+    <ProjectReference Include="..\TicketTide.Tickets.Contracts\TicketTide.Tickets.Contracts.csproj" />
+    <ProjectReference Include="..\..\Orders\TicketTide.Orders.Contracts\TicketTide.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\EmailSending\TicketTide.EmailSending.Contracts\TicketTide.EmailSending.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TicketTide.Tickets.Tests" />
+  </ItemGroup>
+
+</Project>

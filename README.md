@@ -5,7 +5,7 @@ Exercises, runnable samples, and animated diagrams for the **Software Architectu
 | Folder | What's in it |
 | --- | --- |
 | [`exercises/`](./exercises/) | The workshop's exercises and discussions, the TicketTide case study, worksheets, templates, and starter code |
-| [`samples/`](./samples/) | Runnable .NET 10 + Aspire samples: Clean Architecture, Vertical Slice Architecture, and one for each of the eight saga patterns |
+| [`samples/`](./samples/) | Runnable .NET 10 + Aspire samples: Clean Architecture, Vertical Slice Architecture, an Atomic Modular Monolith, and one for each of the eight saga patterns |
 | [`diagrams/`](./diagrams/) | Animated diagrams from the slides, which you can step through at your own pace |
 
 ## What you need
@@ -13,7 +13,7 @@ Exercises, runnable samples, and animated diagrams for the **Software Architectu
 Work through [Exercise 0: set up your machine](./exercises/setup.md) **before the workshop**. It installs and checks everything below, and downloads the container images ahead of time.
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download) for the code exercises and the samples
-- Docker Desktop (or Podman), running, for the samples. They start PostgreSQL, RabbitMQ, and Papercut containers.
+- Docker Desktop (or Podman), running, for the samples. They start PostgreSQL, SQL Server, RabbitMQ, and Papercut containers.
 - An internet connection. The samples download packages and container images the first time, and the diagrams load their animation engine from a CDN.
 - An editor: Visual Studio, VS Code, or Rider
 

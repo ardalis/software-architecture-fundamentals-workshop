@@ -1,0 +1,32 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TicketTide.AppHost/TicketTide.AppHost.csproj" />
+    <Project Path="src/TicketTide.ServiceDefaults/TicketTide.ServiceDefaults.csproj" />
+    <Project Path="src/TicketTide.SharedKernel/TicketTide.SharedKernel.csproj" />
+    <Project Path="src/TicketTide.Web/TicketTide.Web.csproj" />
+  </Folder>
+  <Folder Name="/src/EmailSending/">
+    <Project Path="src/EmailSending/TicketTide.EmailSending.Contracts/TicketTide.EmailSending.Contracts.csproj" />
+    <Project Path="src/EmailSending/TicketTide.EmailSending.Internal/TicketTide.EmailSending.Internal.csproj" />
+    <Project Path="src/EmailSending/TicketTide.EmailSending.Tests/TicketTide.EmailSending.Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/Events/">
+    <Project Path="src/Events/TicketTide.Events.Contracts/TicketTide.Events.Contracts.csproj" />
+    <Project Path="src/Events/TicketTide.Events.Internal/TicketTide.Events.Internal.csproj" />
+    <Project Path="src/Events/TicketTide.Events.Tests/TicketTide.Events.Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/Orders/">
+    <Project Path="src/Orders/TicketTide.Orders.Contracts/TicketTide.Orders.Contracts.csproj" />
+    <Project Path="src/Orders/TicketTide.Orders.Internal/TicketTide.Orders.Internal.csproj" />
+    <Project Path="src/Orders/TicketTide.Orders.Tests/TicketTide.Orders.Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/Tickets/">
+    <Project Path="src/Tickets/TicketTide.Tickets.Contracts/TicketTide.Tickets.Contracts.csproj" />
+    <Project Path="src/Tickets/TicketTide.Tickets.Internal/TicketTide.Tickets.Internal.csproj" />
+    <Project Path="src/Tickets/TicketTide.Tickets.Tests/TicketTide.Tickets.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TicketTide.EndToEndTests/TicketTide.EndToEndTests.csproj" />
+    <Project Path="tests/TicketTide.IntegrationTests/TicketTide.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

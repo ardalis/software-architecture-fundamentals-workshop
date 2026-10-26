@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The EmailSending module: sends email through SMTP (Papercut, in development). Only the host references this. -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MailKit" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TicketTide.SharedKernel\TicketTide.SharedKernel.csproj" />
+    <ProjectReference Include="..\TicketTide.EmailSending.Contracts\TicketTide.EmailSending.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TicketTide.EmailSending.Tests" />
+  </ItemGroup>
+
+</Project>

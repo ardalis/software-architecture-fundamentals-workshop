@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Every module together, through Mediator, on one in-memory SQLite connection: the transactions across modules,
+    without Docker. The end-to-end tests run the same flows against SQL Server.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediator.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Events\TicketTide.Events.Internal\TicketTide.Events.Internal.csproj" />
+    <ProjectReference Include="..\..\src\Orders\TicketTide.Orders.Internal\TicketTide.Orders.Internal.csproj" />
+    <ProjectReference Include="..\..\src\Tickets\TicketTide.Tickets.Internal\TicketTide.Tickets.Internal.csproj" />
+  </ItemGroup>
+
+  <!-- Shared test helpers. Edit them in tests/TestSupport, not a copy. -->
+  <ItemGroup>
+    <Compile Include="..\TestSupport\SqliteDatabase.cs" Link="TestSupport\SqliteDatabase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="TicketTide.TestSupport" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

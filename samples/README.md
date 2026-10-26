@@ -4,21 +4,25 @@ Runnable architecture samples for the workshop. Each sample is in its own folder
 
 ## Monolithic styles
 
-Two samples build the same small slice of TicketTide, buying tickets and refunding them, in two different
+Three samples build the same small slice of TicketTide, buying tickets and refunding them, in three different
 monolithic styles. They have the same API, the same behavior, and the same end-to-end tests. Only the structure of
-the code differs. The [add-a-feature exercise](../exercises/add-a-feature.md) adds ticket transfer to each and
-compares the two.
+the code differs. The [add-a-feature exercise](../exercises/add-a-feature.md) adds ticket transfer to Clean
+Architecture and Vertical Slice and compares the two.
 
 | Sample | Organized by | Where the business rules live | Projects |
 | ------ | ------------ | ----------------------------- | -------- |
 | [Clean Architecture](clean-architecture/) | Layer: Core, Infrastructure, Web | On the `Order` and `Event` aggregates in Core | Core, Infrastructure, Web (+ AppHost) |
 | [Vertical Slice](vertical-slice/) | Feature: one folder per request | In each feature's endpoint | Web (+ AppHost) |
+| [Atomic Modular Monolith](atomic-modular-monolith/) | Module: Events, Orders, Tickets, EmailSending | In each module, which others reach only through its Contracts | Contracts, Internal, and Tests per module, SharedKernel, Web (+ AppHost) |
 
-Both use .NET 10, Aspire, PostgreSQL, Papercut, and FastEndpoints, like the saga samples, and serve the same API:
-`GET /events`, `POST /orders`, `GET /orders/{orderId}`, and `POST /orders/{orderId}/refund`. Both serve the same
-home page at `/`, linked from [`shared/MonolithHomePage`](shared/MonolithHomePage/): buttons for the happy path, a
-refund, and the failure paths, a form for your own orders, and an order lookup. Or use each sample's `.http` file or
-the `curl` commands in its README.
+All three use .NET 10, Aspire, Papercut, and FastEndpoints, like the saga samples, and serve the same API:
+`GET /events`, `POST /orders`, `GET /orders/{orderId}`, and `POST /orders/{orderId}/refund`. Clean Architecture
+and Vertical Slice use PostgreSQL. The Atomic Modular Monolith uses SQL Server, with every module's tables in one
+database, so one transaction covers all the modules and a failure needs no saga. Compare it with the
+[Epic Saga](epic-saga/), where the same modules each have their own database. All three serve the same home page at
+`/`, linked from [`shared/MonolithHomePage`](shared/MonolithHomePage/): buttons for the happy path, a refund, and the
+failure paths, a form for your own orders, and an order lookup. Or use each sample's `.http` file or the `curl`
+commands in its README.
 
 ## Saga patterns
 
@@ -89,7 +93,8 @@ dotnet dev-certs https --trust
 
 Or skip HTTPS with `dotnet run --project src/TicketTide.AppHost --launch-profile http`.
 
-The first run pulls the PostgreSQL, Papercut, and RabbitMQ images, which takes a few minutes.
+The first run pulls the PostgreSQL, SQL Server, Papercut, and RabbitMQ images (whichever the sample uses), which takes
+a few minutes.
 
 ## Run a sample
 

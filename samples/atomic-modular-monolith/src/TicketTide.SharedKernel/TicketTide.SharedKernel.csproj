@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    What every module shares: the unit of work over the one database connection, the Mediator behaviors, and the
+    mapping from a Result to an HTTP response. No business rules, and no module's types.
+  -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+  </ItemGroup>
+
+</Project>

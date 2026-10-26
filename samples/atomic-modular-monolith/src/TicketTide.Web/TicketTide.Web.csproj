@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!--
+    The host: one process for every module. It's the only project that references the modules' Internal projects,
+    and it wires them together: the shared database connection, Mediator, and the HTTP endpoints.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="Mediator.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketTide.ServiceDefaults\TicketTide.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\TicketTide.SharedKernel\TicketTide.SharedKernel.csproj" />
+    <ProjectReference Include="..\EmailSending\TicketTide.EmailSending.Internal\TicketTide.EmailSending.Internal.csproj" />
+    <ProjectReference Include="..\Events\TicketTide.Events.Internal\TicketTide.Events.Internal.csproj" />
+    <ProjectReference Include="..\Orders\TicketTide.Orders.Internal\TicketTide.Orders.Internal.csproj" />
+    <ProjectReference Include="..\Tickets\TicketTide.Tickets.Internal\TicketTide.Tickets.Internal.csproj" />
+  </ItemGroup>
+
+  <!-- The home page is shared with the other monolith samples. Edit samples/shared/MonolithHomePage, not a copy. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\shared\MonolithHomePage\HomePage.cs" Link="HomePage\HomePage.cs" />
+    <EmbeddedResource Include="..\..\..\shared\MonolithHomePage\index.html" Link="HomePage\index.html" LogicalName="TicketTide.Web.HomePage.index.html" />
+  </ItemGroup>
+
+</Project>

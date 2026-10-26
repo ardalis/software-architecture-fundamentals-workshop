@@ -1,4 +1,4 @@
-/* CAP / PACELC diagrams: grey client, green services, yellow cache and queues.
+/* CAP / PACELC diagrams: grey client, green services, yellow cache, queues and replica data.
    Failures are red, stale answers orange, and the network partition a red zigzag.
    Loaded by the player (see `stylesheet` in cap-kit.js). */
 
@@ -21,12 +21,14 @@ svg[data-diagram^='cap-'] .node.service rect {
 }
 
 svg[data-diagram^='cap-'] .node.cache rect,
-svg[data-diagram^='cap-'] .node.queue rect {
+svg[data-diagram^='cap-'] .node.queue rect,
+svg[data-diagram^='cap-'] .node.data rect {
   fill: var(--store-fill);
 }
 
 svg[data-diagram^='cap-'] .node.cache text,
-svg[data-diagram^='cap-'] .node.queue text {
+svg[data-diagram^='cap-'] .node.queue text,
+svg[data-diagram^='cap-'] .node.data text {
   font-size: 24px;
 }
 

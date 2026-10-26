@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Testing" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\TicketTide.AppHost\TicketTide.AppHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Aspire.Hosting" />
+    <Using Include="Aspire.Hosting.ApplicationModel" />
+    <Using Include="Aspire.Hosting.Testing" />
+    <Using Include="System.Net" />
+    <Using Include="System.Net.Http.Json" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- The home page test is shared with the other monolith samples. Edit samples/shared/MonolithHomePage, not a copy. -->
+  <ItemGroup>
+    <Compile Include="..\..\..\shared\MonolithHomePage\HomePageTests.cs" Link="HomePageTests.cs" />
+  </ItemGroup>
+
+</Project>

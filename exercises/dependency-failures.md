@@ -23,6 +23,7 @@ Each group takes one scenario (1-day: scenarios 1 and 2 only).
 1. Is this a **read** or a **write** problem, or both?
 2. What does the user see if you do nothing?
 3. What will you do instead? Consider:
+   - **While the user waits:** retry a few times with a timeout, backoff, and jitter, behind a circuit breaker. Is the call safe to repeat? What happens when the retries run out?
    - **On read:** serve from a cache. How stale can it be? How will the user know?
    - **On write:** accept into a queue and process later. What happens if processing fails later? Is the handler idempotent?
    - **Fail fast** with a clear message.

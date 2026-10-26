@@ -1,8 +1,9 @@
 namespace TicketTide.EndToEndTests;
 
 /// <summary>
-/// The home page at <c>/</c> lets you try the API from a browser. The Clean Architecture and Vertical Slice samples'
-/// tests link this file from <c>samples/shared/MonolithHomePage</c>, so edit it there.
+/// The home page at <c>/</c> lets you try the API from a browser. The monolith samples' (Clean Architecture, Vertical
+/// Slice, and Atomic Modular Monolith) tests link this file from <c>samples/shared/MonolithHomePage</c>, so edit it
+/// there.
 /// </summary>
 public sealed class HomePageTests(TicketTideApp app)
 {
@@ -17,7 +18,7 @@ public sealed class HomePageTests(TicketTideApp app)
         var html = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         Assert.Contains("<title>", html);
         Assert.DoesNotContain("{{", html); // Every placeholder was filled in.
-        Assert.Matches("<h1>(Clean Architecture|Vertical Slice)</h1>", html); // The sample's own name.
+        Assert.Matches("<h1>(Clean Architecture|Vertical Slice|Atomic Modular Monolith)</h1>", html); // The sample's own name.
         Assert.Contains("data-scenario=\"happy\"", html);
         Assert.Contains("data-scenario=\"refund\"", html);
         Assert.Contains("data-scenario=\"declined\"", html);

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The module's public messages. Other modules may reference this project, never the module's Internal project. -->
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Result" />
+    <PackageReference Include="Mediator.Abstractions" />
+  </ItemGroup>
+
+</Project>

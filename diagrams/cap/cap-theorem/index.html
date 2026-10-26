@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CAP Theorem</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script type="importmap">
+    {
+      "imports": {
+        "animejs": "https://cdn.jsdelivr.net/npm/animejs@4/+esm",
+        "animated-diagrams/model": "https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/diagram-model.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/page.css">
+  <link rel="stylesheet" href="../page.css">
+</head>
+<body>
+  <main>
+    <p class="back"><a href="../">CAP, PACELC, and microservices</a></p>
+    <h1>CAP: During a Partition, Choose Consistency or Availability</h1>
+    <div class="diagram-player" data-diagram="cap-theorem.js" data-keyboard="page"></div>
+    <p class="legend">? is a query, = is its result, and ! is a command. Solid arrows are synchronous calls; dashed arrows are
+      asynchronous events or queued messages. <span class="fail">Red</span> marks a failure or the network partition;
+      <span class="stale">orange</span> marks a stale answer.</p>
+  </main>
+  <script type="module" src="https://cdn.jsdelivr.net/gh/NimblePros/animated-diagrams@v0.2.0/src/autoload.js"></script>
+</body>
+</html>

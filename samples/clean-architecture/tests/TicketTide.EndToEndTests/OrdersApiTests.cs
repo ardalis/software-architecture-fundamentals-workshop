@@ -1,8 +1,8 @@
 namespace TicketTide.EndToEndTests;
 
 /// <summary>
-/// The API's behavior, over HTTP. The Clean Architecture and Vertical Slice samples have the same tests, because
-/// they have the same behavior: only the code's structure differs.
+/// The API's behavior, over HTTP. The monolith samples (Clean Architecture, Vertical Slice, and Atomic Modular
+/// Monolith) have the same tests, because they have the same behavior: only the code's structure differs.
 /// </summary>
 public sealed class OrdersApiTests(TicketTideApp app)
 {
