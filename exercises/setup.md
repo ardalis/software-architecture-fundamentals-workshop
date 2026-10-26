@@ -83,6 +83,13 @@ Have everything the exercises need working before you need it, so the workshop t
 - **`docker info` fails, or the tests can't start containers:** start Docker Desktop and wait until it says it's running. On Windows, Docker Desktop needs WSL 2.
 - **Package or image downloads fail on a corporate network:** you may need your proxy settings in Docker Desktop and in the `HTTP_PROXY` / `HTTPS_PROXY` environment variables. Try a different network if you can.
 - **The tests time out the first time:** the image downloads may have taken too long. Run the same command again.
+- **The E2E tests fail with `resource 'api' ... failed to start`, and the API logs show Npgsql timeouts:** this has been seen on Windows machines joined to a corporate domain (Kerberos). The PostgreSQL driver gets stuck negotiating GSS encryption. Turn it off for the current terminal, then run the command again:
+
+  ```powershell
+  $env:PGGSSENCMODE = 'disable'
+  ```
+
+  To make it permanent, run `[Environment]::SetEnvironmentVariable('PGGSSENCMODE','disable','User')`, then open a new terminal (and restart your editor). The setting only applies to terminals opened after you set it.
 - **Port 5240 is already in use:** another sample is still running. Stop it with Ctrl+C. The samples share ports, so run one at a time.
 
 If you're stuck, bring it to the workshop. We'll check everyone's setup at the start, and you can pair with someone whose setup works.

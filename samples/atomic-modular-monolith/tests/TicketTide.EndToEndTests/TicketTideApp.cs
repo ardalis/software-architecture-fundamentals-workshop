@@ -3,6 +3,10 @@ using Microsoft.Extensions.Logging;
 
 [assembly: AssemblyFixture(typeof(TicketTide.EndToEndTests.TicketTideApp))]
 
+// Every test class shares one app and its seat counts. Run them one at a time, or a purchase in one class lands
+// between another class's "seats before" and "seats after" reads.
+[assembly: Xunit.v3.Parallelization(Mode = Xunit.Sdk.ParallelMode.None)]
+
 namespace TicketTide.EndToEndTests;
 
 /// <summary>

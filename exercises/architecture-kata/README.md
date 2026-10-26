@@ -18,7 +18,7 @@ Practice getting architecture characteristics out of a business description, cho
 1. **Alone: read the brief (5 min).** Each person reads it alone and highlights anything that sounds like a quality requirement rather than a feature.
 2. **Team: list the candidates (5 min).** As a team, fill in the "Evidence" column of the worksheet. Quote the brief. Mark each one *explicit* (someone asked for it) or *implicit* (nobody said it, but it would be a failure if it were missing).
 3. **Team: pick the top three (5 min).** You can't have more than three. Expect to argue.
-4. **Team: make them measurable (5 min).** Give each of your three a target you could test, such as "checkout p99 under 2 s with 40,000 users in 5 minutes".
+4. **Team: make them measurable (5 min).** Give each of your three a target you could test, such as "checkout p99 under 2 s while 40,000 fans arrive in the first 5 minutes of an on-sale".
 5. **Team: name one you're giving up.** Record one characteristic a stakeholder cares about that you didn't prioritize, and why.
 
 ## Deliverable
