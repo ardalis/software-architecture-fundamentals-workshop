@@ -22,20 +22,26 @@ Have everything the exercises need working before you need it, so the workshop t
    docker info
    ```
 
-3. **Clone the workshop repository** and open it in your editor (Visual Studio, VS Code, or Rider):
+3. **Install the Aspire CLI**, which runs the samples and their containers. Follow the [install instructions](https://aspire.dev/get-started/install-cli/) for your OS, then check it:
+
+   ```sh
+   aspire --version
+   ```
+
+4. **Clone the workshop repository** and open it in your editor (Visual Studio, VS Code, or Rider):
 
    ```sh
    git clone https://github.com/ardalis/software-architecture-fundamentals-workshop.git
    cd software-architecture-fundamentals-workshop
    ```
 
-4. **Trust the .NET development certificate**, so the Aspire dashboard opens over HTTPS. You only ever need to do this once per machine:
+5. **Trust the .NET development certificate**, so the Aspire dashboard opens over HTTPS. You only ever need to do this once per machine:
 
    ```sh
    dotnet dev-certs https --trust
    ```
 
-5. **Run a code exercise.** The first run restores packages:
+6. **Run a code exercise.** The first run restores packages:
 
    ```sh
    cd exercises/coupling-cohesion
@@ -45,7 +51,7 @@ Have everything the exercises need working before you need it, so the workshop t
 
    You should see an order placed and a settlement report.
 
-6. **Build and test a sample.** This downloads the PostgreSQL and Papercut container images and runs the sample's tests against them. It takes a few minutes the first time:
+7. **Build and test a sample.** This downloads the PostgreSQL and Papercut container images and runs the sample's tests against them. It takes a few minutes the first time:
 
    ```sh
    dotnet BuildTestFormat.cs clean-architecture
@@ -53,13 +59,13 @@ Have everything the exercises need working before you need it, so the workshop t
 
    It should end with `All steps passed.`
 
-7. **Two-day workshop only: get the message broker too.** The asynchronous saga samples also use RabbitMQ:
+8. **Two-day workshop only: get the message broker too.** The asynchronous saga samples also use RabbitMQ:
 
    ```sh
    dotnet BuildTestFormat.cs anthology-saga
    ```
 
-8. **Get an AI coding agent ready**, such as Claude Code or GitHub Copilot, signed in and able to read the repository. Ask it "What samples are in this repository, and how do I run one?" and check that the answer matches the README.
+9. **Get an AI coding agent ready**, such as Claude Code or GitHub Copilot, signed in and able to read the repository. Ask it "What samples are in this repository, and how do I run one?" and check that the answer matches the README.
 
 ## Done when
 
@@ -67,6 +73,7 @@ Have everything the exercises need working before you need it, so the workshop t
 | --- | --- |
 | `dotnet --version` | 10.0.100 or later |
 | `docker info` | Server details, not an error |
+| `aspire --version` | A version number |
 | `dotnet run OrderManager.cs` | A settlement report |
 | `dotnet BuildTestFormat.cs clean-architecture` | `All steps passed.` |
 | Your AI agent | A sensible answer about the repository |

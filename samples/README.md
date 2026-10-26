@@ -81,8 +81,8 @@ The samples are as alike as possible, so you can diff any two of them and see on
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - Docker Desktop (or Podman), running
-- Optional: the [Aspire CLI](https://aspire.dev/) (`aspire run` works too), and an editor that runs
-  `.http` files (Visual Studio, VS Code with REST Client, or Rider)
+- The [Aspire CLI](https://aspire.dev/get-started/install-cli/)
+- Optional: an editor that runs `.http` files (Visual Studio, VS Code with REST Client, or Rider)
 
 The AppHost's default launch profile uses HTTPS for the Aspire dashboard. If you have never trusted the .NET
 development certificate on this machine, do it once:

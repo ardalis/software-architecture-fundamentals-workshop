@@ -14,6 +14,7 @@ Work through [Exercise 0: set up your machine](./exercises/setup.md) **before th
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download) for the code exercises and the samples
 - Docker Desktop (or Podman), running, for the samples. They start PostgreSQL, SQL Server, RabbitMQ, and Papercut containers.
+- The [Aspire CLI](https://aspire.dev/get-started/install-cli/), to run the samples
 - An internet connection. The samples download packages and container images the first time, and the diagrams load their animation engine from a CDN.
 - An editor: Visual Studio, VS Code, or Rider
 
