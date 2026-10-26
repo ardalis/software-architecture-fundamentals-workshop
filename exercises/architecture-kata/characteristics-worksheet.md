@@ -1,6 +1,6 @@
 # Architecture Characteristics Worksheet
 
-Use this worksheet for the [architecture kata](./architecture-kata.md). Print it or copy it into your team's notes.
+Use this worksheet for the [architecture kata](./README.md). Print it or copy it into your team's notes.
 
 ## Candidate characteristics
 

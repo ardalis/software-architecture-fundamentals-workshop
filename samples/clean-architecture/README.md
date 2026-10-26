@@ -43,8 +43,8 @@ project level: the database and email are details that plug into the domain, not
 | "A paid order issues one ticket per seat" | [`Order.MarkPaid`](src/TicketTide.Core/OrderAggregate/Order.cs) |
 | "Only a paid order can be refunded" | [`Order.Refund`](src/TicketTide.Core/OrderAggregate/Order.cs) |
 | "You can't buy more seats than are left" | [`Event.SellSeats`](src/TicketTide.Core/EventAggregate/Event.cs) |
-| The steps of buying tickets | [`PlaceOrderService`](src/TicketTide.Core/Services/PlaceOrderService.cs) |
-| The steps of a refund | [`RefundOrderService`](src/TicketTide.Core/Services/RefundOrderService.cs) |
+| The steps of buying tickets | [`PlaceOrderService`](src/TicketTide.Core/Services/PlaceOrderService.cs), behind [`IPlaceOrderService`](src/TicketTide.Core/Services/IPlaceOrderService.cs) |
+| The steps of a refund | [`RefundOrderService`](src/TicketTide.Core/Services/RefundOrderService.cs), behind [`IRefundOrderService`](src/TicketTide.Core/Services/IRefundOrderService.cs) |
 | Saving, and spotting two fans racing for the same seats | [`AppDbContext`](src/TicketTide.Infrastructure/Data/AppDbContext.cs) |
 | The email text | [`SmtpFanNotifier`](src/TicketTide.Infrastructure/Email/SmtpFanNotifier.cs) |
 | HTTP: routes, validation, status codes | [`Web/Orders`](src/TicketTide.Web/Orders/) and [`Web/Events`](src/TicketTide.Web/Events/) |
@@ -90,7 +90,7 @@ You get `201 Created` with the order and two tickets, and Papercut has a "Your t
 email. Now follow the request through the code:
 
 1. **Web:** [`PlaceOrder`](src/TicketTide.Web/Orders/PlaceOrder.cs) validates the request, calls
-   `PlaceOrderService`, and maps the result to `201`, `422`, or an error. No business logic.
+   `IPlaceOrderService`, and maps the result to `201`, `422`, or an error. No business logic.
 2. **Core:** [`PlaceOrderService`](src/TicketTide.Core/Services/PlaceOrderService.cs) loads the event through
    `IEventRepository`, asks it whether the seats are available, charges the card through `IPaymentGateway`, and
    tells the order it was paid. It doesn't know about PostgreSQL, SMTP, or HTTP.

@@ -10,7 +10,7 @@ public sealed class RefundOrderService(
     IEventRepository events,
     IUnitOfWork unitOfWork,
     IPaymentGateway payments,
-    IFanNotifier notifier)
+    IFanNotifier notifier) : IRefundOrderService
 {
     /// <returns>
     /// The refunded order. Or NotFound for an unknown order, Invalid when the order isn't paid, or Conflict when

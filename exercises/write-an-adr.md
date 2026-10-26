@@ -10,7 +10,7 @@ Turn a decision you already made in the workshop into an ADR that a new team mem
 
 ## Materials
 
-- Your scoring table and decision statement from [Compare Two Candidate Solutions](./compare-candidates.md), or one decision from [Split or Merge?](./split-or-merge.md)
+- Your scoring table and decision statement from [Compare Two Candidate Solutions](./compare-candidates/), or one decision from [Split or Merge?](./split-or-merge.md)
 - [ADR template](./templates/adr-template.md) (Michael Nygard's format)
 
 ## Steps

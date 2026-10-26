@@ -12,6 +12,13 @@ const CONTRACT_H = 50;
 const col = { a: 55, b: 445, c: 918, d: 1372 };
 const mid = { a: 175, b: 565, c: 1038, d: 1492 };
 
+// Labels sit beside their lines, never on top of them (13px text, so half a label is about 3.7px per character).
+// `beside` is the center x of a label just right of a vertical line at `x`;
+// `above` is the center y of a label just over a horizontal line at `y`.
+const longest = (label) => Math.max(...label.split('\n').map((l) => l.length));
+const beside = (x, label) => x + 10 + longest(label) * 3.7;
+const above = (y, label) => y - 4 - label.split('\n').length * 8.5;
+
 // A module and its contracts project: the contracts sit above the module,
 // and a dashed "References" edge runs from the module up to them.
 // `caption` plays as the pair appears; `referencesCaption` (optional) as the edge draws.
@@ -39,7 +46,7 @@ function moduleWithContracts({ id, label, contractsLabel, x, cx, contractsY, mod
       variant: 'reference',
       dashed: true,
       points: [{ x: cx, y: moduleY }, { x: cx, y: contractsY + CONTRACT_H }],
-      labelAt: { x: cx, y: (moduleY + contractsY + CONTRACT_H) / 2 },
+      labelAt: { x: beside(cx, 'References'), y: (moduleY + contractsY + CONTRACT_H) / 2 },
       caption: referencesCaption,
       step: step + 1,
     },
@@ -104,7 +111,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Has a',
       caption: "Customers have a Shopping Cart, but they depend only on the Cart's Contracts.",
       points: [{ x: 295, y: 488 }, { x: 370, y: 488 }, { x: 370, y: 364 }, { x: col.b, y: 364 }],
-      labelAt: { x: 370, y: 431 },
+      labelAt: { x: beside(370, 'Has a'), y: 431 },
       step: 5,
     },
     {
@@ -122,7 +129,7 @@ export const modulesAndContracts = new Diagram({
         { x: 41, y: 372 },
         { x: col.a, y: 372 },
       ],
-      labelAt: { x: 230, y: 575 },
+      labelAt: { x: 230, y: above(575, 'Get Customer Name') },
       step: 6,
     },
     {
@@ -132,7 +139,8 @@ export const modulesAndContracts = new Diagram({
       label: 'Product Name,\nBase Price',
       caption: 'Cart items get Product names and base prices through Products Contracts.',
       points: [{ x: 684, y: 486 }, { x: 742, y: 486 }, { x: 742, y: 144 }, { x: 684, y: 144 }],
-      labelAt: { x: 742, y: 400 },
+      // Above the Create on Checkout line and below the watermark.
+      labelAt: { x: beside(742, 'Product Name,'), y: 265 },
       step: 9,
     },
     {
@@ -149,7 +157,8 @@ export const modulesAndContracts = new Diagram({
         { x: mid.c, y: 310 },
         { x: mid.c, y: 338 },
       ],
-      labelAt: { x: 823, y: 463 },
+      // Above the segment under Shopping Cart, where there's room.
+      labelAt: { x: 694, y: above(563, 'Create on Checkout') },
       step: 12,
     },
     {
@@ -159,7 +168,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Verify Price',
       caption: 'Orders verify current prices using Products Contracts.',
       points: [{ x: 1157, y: 446 }, { x: 1171, y: 446 }, { x: 1171, y: 114 }, { x: 684, y: 114 }],
-      labelAt: { x: 1105, y: 114 },
+      labelAt: { x: 1105, y: above(114, 'Verify Price') },
       step: 13,
     },
     {
@@ -169,7 +178,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Get Default Payment, Address Details',
       caption: "Orders get the Customer's default payment and address through Customers Contracts.",
       points: [{ x: mid.c, y: 534 }, { x: mid.c, y: 638 }, { x: 27, y: 638 }, { x: 27, y: 356 }, { x: col.a, y: 356 }],
-      labelAt: { x: 437, y: 638 },
+      labelAt: { x: 437, y: above(638, 'Get Default Payment, Address Details') },
       step: 14,
     },
     {
@@ -178,8 +187,9 @@ export const modulesAndContracts = new Diagram({
       to: 'inventory-contracts',
       label: 'Check Inventory',
       caption: 'Orders check stock through Inventory Contracts.',
-      points: [{ x: 1157, y: 486 }, { x: 1265, y: 486 }, { x: 1265, y: 364 }, { x: col.d, y: 364 }],
-      labelAt: { x: 1265, y: 429 },
+      // The bend is far enough right to fit the label above the first segment.
+      points: [{ x: 1157, y: 486 }, { x: 1300, y: 486 }, { x: 1300, y: 364 }, { x: col.d, y: 364 }],
+      labelAt: { x: 1228, y: above(486, 'Check Inventory') },
       step: 18,
     },
     {
@@ -189,7 +199,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Calculate Shipping',
       caption: 'Orders ask Shipping Contracts to calculate the shipping cost.',
       points: [{ x: 1157, y: 455 }, { x: 1186, y: 455 }, { x: 1186, y: 120 }, { x: col.d, y: 120 }],
-      labelAt: { x: 1279, y: 120 },
+      labelAt: { x: 1279, y: above(120, 'Calculate Shipping') },
       step: 21,
     },
     {
@@ -199,7 +209,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Deduct Inventory',
       caption: 'Shipping deducts items from Inventory through Inventory Contracts.',
       points: [{ x: mid.d, y: 290 }, { x: mid.d, y: 338 }],
-      labelAt: { x: mid.d, y: 310 },
+      labelAt: { x: beside(mid.d, 'Deduct Inventory'), y: 314 },
       step: 22,
     },
     {
@@ -209,7 +219,7 @@ export const modulesAndContracts = new Diagram({
       label: 'Get Dimensions, Weight to Calculate Shipping',
       caption: "Shipping gets each Product's dimensions and weight through Products Contracts.",
       points: [{ x: 1611, y: 218 }, { x: 1628, y: 218 }, { x: 1628, y: 74 }, { x: mid.b, y: 74 }, { x: mid.b, y: 104 }],
-      labelAt: { x: 1167, y: 74 },
+      labelAt: { x: 1167, y: above(74, 'Get Dimensions, Weight to Calculate Shipping') },
       step: 23,
     },
     {
@@ -218,8 +228,9 @@ export const modulesAndContracts = new Diagram({
       to: 'customers-contracts',
       label: 'Get Customer Email, SMS to Send Tracking\nInfo',
       caption: "Shipping gets the Customer's contact details through Customers Contracts to send tracking info.",
-      points: [{ x: 1611, y: 241 }, { x: 1640, y: 241 }, { x: 1640, y: 34 }, { x: mid.a, y: 34 }, { x: mid.a, y: 338 }],
-      labelAt: { x: 878, y: 34 },
+      // Low enough to leave room for the two-line label above it.
+      points: [{ x: 1611, y: 241 }, { x: 1640, y: 241 }, { x: 1640, y: 44 }, { x: mid.a, y: 44 }, { x: mid.a, y: 338 }],
+      labelAt: { x: 878, y: above(44, 'Get Customer Email, SMS to Send Tracking\nInfo') },
       step: 24,
     },
   ],

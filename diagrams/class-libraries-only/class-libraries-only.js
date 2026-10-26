@@ -13,6 +13,13 @@ const H = 119; // node height
 const col = { a: 57, b: 537, c: 1120, d: 1678 };
 const row = { top: 233, bottom: 514 };
 
+// Labels sit beside their lines, never on top of them (17px text, so half a label is about 4.7px per character).
+// `beside` is the center x of a label just left (side -1) or right (side 1) of a vertical line at `x`;
+// `above` is the center y of a label just over a horizontal line at `y`.
+const longest = (label) => Math.max(...label.split('\n').map((l) => l.length));
+const beside = (x, label, side = 1) => x + side * (10 + longest(label) * 4.7);
+const above = (y, label) => y - 5 - label.split('\n').length * 11;
+
 export const classLibrariesOnly = new Diagram({
   id: 'class-libraries-only',
   title: 'Class Libraries Only: Circular Dependencies',
@@ -46,7 +53,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'cart',
       label: 'Has a',
       points: [{ x: col.a + W, y: 574 }, { x: col.b, y: 574 }],
-      labelAt: { x: 435, y: 574 },
+      labelAt: { x: 443, y: above(574, 'Has a') },
       step: 3,
     },
     {
@@ -55,7 +62,8 @@ export const classLibrariesOnly = new Diagram({
       to: 'products',
       label: 'Product Name, Base Price',
       points: [{ x: 683, y: row.bottom }, { x: 683, y: row.top + H }],
-      labelAt: { x: 683, y: 439 },
+      // Left of the line, clear of the watermark.
+      labelAt: { x: beside(683, 'Product Name, Base Price', -1), y: 433 },
       step: 5,
     },
     {
@@ -64,7 +72,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'orders',
       label: 'Create on Checkout',
       points: [{ x: col.b + W, y: 574 }, { x: col.c, y: 574 }],
-      labelAt: { x: 966, y: 574 },
+      labelAt: { x: 975, y: above(574, 'Create on Checkout') },
       step: 7,
     },
     {
@@ -73,7 +81,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'products',
       label: 'Verify Price',
       points: [{ x: 1266, y: row.bottom }, { x: 1266, y: 292 }, { x: col.b + W, y: 292 }],
-      labelAt: { x: 1165, y: 292 },
+      labelAt: { x: 1165, y: above(292, 'Verify Price') },
       caption: 'Cart items may be stale, so Orders must check the current Product prices.',
       step: 8,
     },
@@ -83,7 +91,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'inventory',
       label: 'Check Inventory',
       points: [{ x: col.c + W, y: 574 }, { x: col.d, y: 574 }],
-      labelAt: { x: 1540, y: 574 },
+      labelAt: { x: 1545, y: above(574, 'Check Inventory') },
       step: 10,
     },
     {
@@ -92,7 +100,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'shipping',
       label: 'Calculate Shipping',
       points: [{ x: 1311, y: row.bottom }, { x: 1311, y: 334 }, { x: col.d, y: 334 }],
-      labelAt: { x: 1396, y: 334 },
+      labelAt: { x: 1494, y: above(334, 'Calculate Shipping') },
       caption: 'Orders ask Shipping to calculate the shipping cost...',
       step: 12,
     },
@@ -108,7 +116,7 @@ export const classLibrariesOnly = new Diagram({
         { x: 683, y: 197 },
         { x: 683, y: row.top },
       ],
-      labelAt: { x: 1216, y: 197 },
+      labelAt: { x: 1050, y: above(197, 'Get Dimensions, Weight to Calculate Shipping') },
       caption: "...which depends on each Product's dimensions and weight.",
       step: 13,
     },
@@ -118,7 +126,7 @@ export const classLibrariesOnly = new Diagram({
       to: 'inventory',
       label: 'Deduct Inventory',
       points: [{ x: 1825, y: row.top + H }, { x: 1825, y: row.bottom }],
-      labelAt: { x: 1825, y: 427 },
+      labelAt: { x: beside(1825, 'Deduct Inventory', -1), y: 433 },
       caption: 'When an Order ships, Shipping deducts its items from Inventory.',
       step: 14,
     },
@@ -133,7 +141,7 @@ export const classLibrariesOnly = new Diagram({
         { x: 203, y: 84 },
         { x: 203, y: row.bottom },
       ],
-      labelAt: { x: 881, y: 84 },
+      labelAt: { x: 881, y: above(84, 'Get Customer Email, SMS to Send Tracking\nInfo') },
       caption: "To send tracking info, Shipping needs the Customer's email and phone number.",
       step: 15,
     },
@@ -148,7 +156,8 @@ export const classLibrariesOnly = new Diagram({
         { x: 203, y: 781 },
         { x: 203, y: row.bottom + H },
       ],
-      labelAt: { x: 743, y: 781 },
+      // Left of the second callout's tail.
+      labelAt: { x: 600, y: above(781, 'Get Default Payment, Address Details') },
       caption: "Orders also need the Customer's default payment method and address.",
       step: 17,
     },

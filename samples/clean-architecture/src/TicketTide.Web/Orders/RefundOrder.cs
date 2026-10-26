@@ -5,7 +5,7 @@ namespace TicketTide.Web.Orders;
 
 public sealed record RefundOrderRequest(Guid OrderId);
 
-internal sealed class RefundOrder(RefundOrderService service) : Endpoint<RefundOrderRequest, OrderResponse>
+internal sealed class RefundOrder(IRefundOrderService service) : Endpoint<RefundOrderRequest, OrderResponse>
 {
     public override void Configure()
     {

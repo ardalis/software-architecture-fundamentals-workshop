@@ -33,7 +33,7 @@ internal sealed class PlaceOrderValidator : Validator<PlaceOrderRequest>
 /// Buy tickets: <c>201 Created</c> when the card is charged and the tickets are issued, or
 /// <c>422 Unprocessable Entity</c> with the declined order.
 /// </summary>
-internal sealed class PlaceOrder(PlaceOrderService service) : Endpoint<PlaceOrderRequest, OrderResponse>
+internal sealed class PlaceOrder(IPlaceOrderService service) : Endpoint<PlaceOrderRequest, OrderResponse>
 {
     public override void Configure()
     {

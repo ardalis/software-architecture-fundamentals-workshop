@@ -9,8 +9,8 @@ builder.AddServiceDefaults();
 
 // The composition root: Web is the one project that sees Core and Infrastructure, and wires them together.
 builder.AddInfrastructure();
-builder.Services.AddScoped<PlaceOrderService>();
-builder.Services.AddScoped<RefundOrderService>();
+builder.Services.AddScoped<IPlaceOrderService, PlaceOrderService>();
+builder.Services.AddScoped<IRefundOrderService, RefundOrderService>();
 
 builder.Services.AddFastEndpoints();
 

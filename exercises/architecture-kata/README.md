@@ -2,7 +2,7 @@
 
 **Module:** "-ilities" (2-day module 3, 1-day module 3, part 1)
 **Format:** teams of 3–5
-**Time:** 20 min of team work + 10 min debrief (1-day: 15 + 5, then go straight to [comparing candidates](./compare-candidates.md))
+**Time:** 20 min of team work + 10 min debrief (1-day: 15 + 5, then go straight to [comparing candidates](../compare-candidates/))
 
 ## Goal
 
@@ -10,8 +10,8 @@ Practice getting architecture characteristics out of a business description, cho
 
 ## Materials
 
-- [TicketTide brief](./tickettide/brief.md)
-- [Characteristics worksheet](./characteristics-worksheet.md)
+- [TicketTide brief](../tickettide/brief.md), the case study shared by most of the workshop's exercises
+- [Characteristics worksheet](./characteristics-worksheet.md), in this folder
 
 ## Steps
 

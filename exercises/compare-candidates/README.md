@@ -10,8 +10,8 @@ Choose between two reasonable architectures by weighing them against the charact
 
 ## Materials
 
-- Your top three characteristics from the [architecture kata](./architecture-kata.md)
-- [TicketTide candidate architectures](./tickettide/candidate-architectures.md)
+- Your top three characteristics from the [architecture kata](../architecture-kata/)
+- [TicketTide candidate architectures](./candidate-architectures.md), in this folder
 
 ## Steps
 

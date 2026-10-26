@@ -1,6 +1,6 @@
 # TicketTide: Two Candidate Architectures
 
-Both candidates meet the functional requirements in the [brief](./brief.md). They differ in how they handle the architecture characteristics.
+Both candidates meet the functional requirements in the [brief](../tickettide/brief.md). They differ in how they handle the architecture characteristics.
 
 ## Candidate A: Modular monolith with an on-sale queue
 

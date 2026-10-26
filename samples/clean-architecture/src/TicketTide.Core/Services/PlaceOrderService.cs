@@ -16,7 +16,7 @@ public sealed class PlaceOrderService(
     IOrderRepository orders,
     IUnitOfWork unitOfWork,
     IPaymentGateway payments,
-    IFanNotifier notifier)
+    IFanNotifier notifier) : IPlaceOrderService
 {
     /// <returns>
     /// The order, which is <see cref="OrderStatus.Paid"/> or <see cref="OrderStatus.Declined"/>. Or NotFound for an

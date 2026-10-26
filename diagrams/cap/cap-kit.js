@@ -41,17 +41,19 @@ export const BOXES = {
 };
 
 const rowOf = (id) => (id.endsWith('b') ? ROW.b : ROW.c);
-const line = (x1, x2, y, labelX) => ({ points: [{ x: x1, y }, { x: x2, y }], labelAt: { x: labelX, y } });
+// Labels sit just above their line rather than on top of it (17px text, so about half its height plus a gap).
+const LABEL_ABOVE = 17;
+const line = (x1, x2, y, labelX) => ({ points: [{ x: x1, y }, { x: x2, y }], labelAt: { x: labelX, y: y - LABEL_ABOVE } });
 
 // The partition's x position: between A and the service, or between a queue and its service.
 const partitionX = (queued) => (queued ? 1200 : 1000);
 
-// Works out an arrow from its endpoints. Lanes are 30px apart at the client,
-// 40px apart in a service row. `cut` stops the arrow at the partition line.
+// Works out an arrow from its endpoints. Lanes are 40px apart, leaving room for
+// each label above its line. `cut` stops the arrow at the partition line.
 function route({ from, to, lane = 0, cut = false }, queued) {
   const px = partitionX(queued);
   if (from === 'client' || to === 'client') {
-    const y = 380 + 30 * lane;
+    const y = 380 + 40 * lane;
     return from === 'client' ? line(240, 440, y, 340) : line(440, 240, y, 340);
   }
   if (from === 'a' && to.startsWith('queue-')) {

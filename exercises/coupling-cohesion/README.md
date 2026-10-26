@@ -19,14 +19,17 @@ dotnet run OrderManager.cs
 
 It writes an `orders.log` file in the current folder.
 
+[`connascence-summary.md`](./connascence-summary.md) lists the kinds of static and dynamic connascence, from weakest to strongest, as covered in the slides. Refer to it while you work if you need to.
+
 ## Steps
 
 1. **Run it and read it (3 min).** It works. Look at the output closely, though.
-2. **Find the problems (7 min).** List as many problems as you can find. For each one, write:
+2. **Find the problems (6 min).** List as many problems as you can find. For each one, write:
    - the line or member
    - the kind of problem: afferent or efferent coupling, a connascence type (name, position, meaning, algorithm, timing, ...), or low cohesion
    - what change would hurt because of it
-3. **Rank them (5 min).** Pick the **two** you would fix first and say why. Use connascence *strength*, *locality*, and *degree* to argue. Don't fix anything yet. The goal is to decide.
+3. **Check for kinds you missed (1 min).** Read [`connascence-summary.md`](./connascence-summary.md), which lists the kinds of static and dynamic connascence from weakest to strongest. Add any problems it helps you spot.
+4. **Rank them (5 min).** Pick the **two** you would fix first and say why. Use connascence *strength*, *locality*, and *degree* to argue. Don't fix anything yet. The goal is to decide.
 
 1-day: skip the ranking and pick just one to fix first.
 

@@ -13,16 +13,19 @@ const MID = X + W / 2;
 // Top of each layer
 const row = { ui: 30, business: 200, data: 370, db: 540 };
 
-// A "Calls" edge from the bottom of one layer to the top of the next.
-const calls = (id, from, to, step, caption) => ({
+// The center x of a label that sits just right of a vertical line at `x`, rather than on top of it.
+// Labels are centered on their point, so this allows about half the label's width (24px bold text).
+const beside = (x, label) => x + 14 + label.length * 7.5;
+
+// An edge from the bottom of one layer to the top of the next.
+const calls = (id, from, to, step, label = 'Calls') => ({
   id,
   from,
   to,
-  label: 'Calls',
+  label,
   points: [{ x: MID, y: row[from] + H }, { x: MID, y: row[to] }],
-  labelAt: { x: MID, y: (row[from] + H + row[to]) / 2 },
+  labelAt: { x: beside(MID, label), y: (row[from] + H + row[to]) / 2 },
   step,
-  caption,
 });
 
 export const layered = new Diagram({
@@ -50,10 +53,7 @@ export const layered = new Diagram({
   edges: [
     calls('ui-business', 'ui', 'business', 2),
     calls('business-data', 'business', 'data', 3),
-    {
-      ...calls('data-db', 'data', 'db', 4),
-      label: 'SQL',
-    },
+    calls('data-db', 'data', 'db', 4, 'SQL'),
     {
       id: 'ui-data',
       from: 'ui',
@@ -66,7 +66,7 @@ export const layered = new Diagram({
         { x: 1300, y: row.data + H / 2 },
         { x: X + W, y: row.data + H / 2 },
       ],
-      labelAt: { x: 1300, y: (row.ui + row.data + H) / 2 },
+      labelAt: { x: beside(1300, 'Skips a layer'), y: (row.ui + row.data + H) / 2 },
       caption: 'Relaxed layering lets a layer skip the one below it. Simpler for reads, but now Presentation depends on Data Access too.',
       step: 6,
     },
