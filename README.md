@@ -1,5 +1,7 @@
 # Software Architecture Fundamentals Workshop
 
+[Session Review Link](https://bit.ly/47FcPbm)
+
 Exercises, runnable samples, and animated diagrams for the **Software Architecture Fundamentals** workshop by Steve "ardalis" Smith. This copy is for **Techorama NL 2026**.
 
 | Folder | What's in it |
