@@ -9,6 +9,8 @@ Exercises, runnable samples, and animated diagrams for the **Software Architectu
 | [`exercises/`](./exercises/) | The workshop's exercises and discussions, the TicketTide case study, worksheets, templates, and starter code |
 | [`samples/`](./samples/) | Runnable .NET 10 + Aspire samples: Clean Architecture, Vertical Slice Architecture, an Atomic Modular Monolith, and one for each of the eight saga patterns |
 | [`diagrams/`](./diagrams/) | Animated diagrams from the slides, which you can step through at your own pace |
+| [`slides/`](./slides/) | The workshop slides as a PDF |
+| [`ai/`](./ai/) | AI agent skills, an agent, and a starter `AGENTS.md` you can copy into your own repositories |
 
 ## What you need
 
